@@ -5,7 +5,6 @@ import type { AppProps } from "next/app";
 import { Layout } from "../common/components/Layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const a = 2;
   return (
     <Layout>
       <Component {...pageProps} />
