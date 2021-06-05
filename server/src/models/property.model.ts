@@ -1,5 +1,6 @@
-import {Entity, model, property, hasOne} from '@loopback/repository';
+import {Entity, model, property, hasOne, hasMany} from '@loopback/repository';
 import {Address} from './address.model';
+import {Image} from './image.model';
 
 @model()
 export class Property extends Entity {
@@ -64,6 +65,9 @@ export class Property extends Entity {
 
   @hasOne(() => Address)
   address: Address;
+
+  @hasMany(() => Image)
+  images: Image[];
 
   constructor(data?: Partial<Property>) {
     super(data);
