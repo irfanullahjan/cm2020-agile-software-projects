@@ -23,7 +23,7 @@ import {ReportRepository} from '../repositories';
 export class ReportController {
   constructor(
     @repository(ReportRepository)
-    public reportRepository : ReportRepository,
+    public reportRepository: ReportRepository,
   ) {}
 
   @post('/reports')
@@ -52,9 +52,7 @@ export class ReportController {
     description: 'Report model count',
     content: {'application/json': {schema: CountSchema}},
   })
-  async count(
-    @param.where(Report) where?: Where<Report>,
-  ): Promise<Count> {
+  async count(@param.where(Report) where?: Where<Report>): Promise<Count> {
     return this.reportRepository.count(where);
   }
 
@@ -70,9 +68,7 @@ export class ReportController {
       },
     },
   })
-  async find(
-    @param.filter(Report) filter?: Filter<Report>,
-  ): Promise<Report[]> {
+  async find(@param.filter(Report) filter?: Filter<Report>): Promise<Report[]> {
     return this.reportRepository.find(filter);
   }
 
@@ -106,7 +102,8 @@ export class ReportController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Report, {exclude: 'where'}) filter?: FilterExcludingWhere<Report>
+    @param.filter(Report, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Report>,
   ): Promise<Report> {
     return this.reportRepository.findById(id, filter);
   }
