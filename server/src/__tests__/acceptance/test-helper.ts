@@ -1,4 +1,4 @@
-import {PropertyService} from '../..';
+import {PropertyApplication} from '../..';
 import {
   createRestAppClient,
   givenHttpServerConfig,
@@ -14,7 +14,7 @@ export async function setupApplication(): Promise<AppWithClient> {
     // port: +process.env.PORT,
   });
 
-  const app = new PropertyService({
+  const app = new PropertyApplication({
     rest: restConfig,
   });
 
@@ -27,6 +27,6 @@ export async function setupApplication(): Promise<AppWithClient> {
 }
 
 export interface AppWithClient {
-  app: PropertyService;
+  app: PropertyApplication;
   client: Client;
 }

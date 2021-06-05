@@ -7,7 +7,7 @@ export class Address extends Entity {
     id: true,
     generated: true,
   })
-  id: number;
+  id?: number;
 
   @property({
     type: 'string',
@@ -38,6 +38,11 @@ export class Address extends Entity {
     required: true,
   })
   phone: string;
+
+  @property({
+    type: 'number',
+  })
+  propertyId?: number;
 
   constructor(data?: Partial<Address>) {
     super(data);

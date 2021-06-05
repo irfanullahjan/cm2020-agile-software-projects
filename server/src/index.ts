@@ -1,9 +1,9 @@
-import {ApplicationConfig, PropertyService} from './application';
+import {ApplicationConfig, PropertyApplication} from './application';
 
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
-  const app = new PropertyService(options);
+  const app = new PropertyApplication(options);
   await app.boot();
   await app.start();
 
