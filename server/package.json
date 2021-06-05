@@ -1,7 +1,7 @@
 {
   "name": "propertymicroservice",
   "version": "0.0.1",
-  "description": "REST API micr-service for property app",
+  "description": "REST API micro-service for property app",
   "keywords": [
     "loopback-application",
     "loopback"
