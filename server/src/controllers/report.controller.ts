@@ -26,7 +26,7 @@ export class ReportController {
     public reportRepository : ReportRepository,
   ) {}
 
-  @post('/report')
+  @post('/reports')
   @response(200, {
     description: 'Report model instance',
     content: {'application/json': {schema: getModelSchemaRef(Report)}},
@@ -47,7 +47,7 @@ export class ReportController {
     return this.reportRepository.create(report);
   }
 
-  @get('/report/count')
+  @get('/reports/count')
   @response(200, {
     description: 'Report model count',
     content: {'application/json': {schema: CountSchema}},
@@ -58,7 +58,7 @@ export class ReportController {
     return this.reportRepository.count(where);
   }
 
-  @get('/report')
+  @get('/reports')
   @response(200, {
     description: 'Array of Report model instances',
     content: {
@@ -76,7 +76,7 @@ export class ReportController {
     return this.reportRepository.find(filter);
   }
 
-  @patch('/report')
+  @patch('/reports')
   @response(200, {
     description: 'Report PATCH success count',
     content: {'application/json': {schema: CountSchema}},
@@ -95,7 +95,7 @@ export class ReportController {
     return this.reportRepository.updateAll(report, where);
   }
 
-  @get('/report/{id}')
+  @get('/reports/{id}')
   @response(200, {
     description: 'Report model instance',
     content: {
@@ -111,7 +111,7 @@ export class ReportController {
     return this.reportRepository.findById(id, filter);
   }
 
-  @patch('/report/{id}')
+  @patch('/reports/{id}')
   @response(204, {
     description: 'Report PATCH success',
   })
@@ -129,7 +129,7 @@ export class ReportController {
     await this.reportRepository.updateById(id, report);
   }
 
-  @put('/report/{id}')
+  @put('/reports/{id}')
   @response(204, {
     description: 'Report PUT success',
   })
@@ -140,7 +140,7 @@ export class ReportController {
     await this.reportRepository.replaceById(id, report);
   }
 
-  @del('/report/{id}')
+  @del('/reports/{id}')
   @response(204, {
     description: 'Report DELETE success',
   })

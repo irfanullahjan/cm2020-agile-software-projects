@@ -26,7 +26,7 @@ export class PropertyController {
     public propertyRepository : PropertyRepository,
   ) {}
 
-  @post('/property')
+  @post('/properties')
   @response(200, {
     description: 'Property model instance',
     content: {'application/json': {schema: getModelSchemaRef(Property)}},
@@ -47,7 +47,7 @@ export class PropertyController {
     return this.propertyRepository.create(property);
   }
 
-  @get('/property/count')
+  @get('/properties/count')
   @response(200, {
     description: 'Property model count',
     content: {'application/json': {schema: CountSchema}},
@@ -58,7 +58,7 @@ export class PropertyController {
     return this.propertyRepository.count(where);
   }
 
-  @get('/property')
+  @get('/properties')
   @response(200, {
     description: 'Array of Property model instances',
     content: {
@@ -76,7 +76,7 @@ export class PropertyController {
     return this.propertyRepository.find(filter);
   }
 
-  @patch('/property')
+  @patch('/properties')
   @response(200, {
     description: 'Property PATCH success count',
     content: {'application/json': {schema: CountSchema}},
@@ -95,7 +95,7 @@ export class PropertyController {
     return this.propertyRepository.updateAll(property, where);
   }
 
-  @get('/property/{id}')
+  @get('/properties/{id}')
   @response(200, {
     description: 'Property model instance',
     content: {
@@ -111,7 +111,7 @@ export class PropertyController {
     return this.propertyRepository.findById(id, filter);
   }
 
-  @patch('/property/{id}')
+  @patch('/properties/{id}')
   @response(204, {
     description: 'Property PATCH success',
   })
@@ -129,7 +129,7 @@ export class PropertyController {
     await this.propertyRepository.updateById(id, property);
   }
 
-  @put('/property/{id}')
+  @put('/properties/{id}')
   @response(204, {
     description: 'Property PUT success',
   })
@@ -140,7 +140,7 @@ export class PropertyController {
     await this.propertyRepository.replaceById(id, property);
   }
 
-  @del('/property/{id}')
+  @del('/properties/{id}')
   @response(204, {
     description: 'Property DELETE success',
   })
