@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   Collapse,
   DropdownItem,
@@ -12,7 +12,7 @@ import {
   NavbarText,
   NavbarToggler,
   UncontrolledDropdown,
-} from "reactstrap";
+} from 'reactstrap';
 
 export const NavbarTop = () => {
   const [isOpen, setIsOpen] = useState(false);
