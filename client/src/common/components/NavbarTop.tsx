@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   Collapse,
   DropdownItem,
@@ -12,7 +12,7 @@ import {
   NavbarText,
   NavbarToggler,
   UncontrolledDropdown,
-} from "reactstrap";
+} from 'reactstrap';
 
 export const NavbarTop = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,9 +30,7 @@ export const NavbarTop = () => {
               <NavLink href="/components/">Components</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                GitHub
-              </NavLink>
+              <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
