@@ -15,16 +15,14 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
-import {
-  Property,
-  Address,
-} from '../models';
+import {Property, Address} from '../models';
 import {PropertyRepository} from '../repositories';
 
 export class PropertyAddressController {
   constructor(
-    @repository(PropertyRepository) protected propertyRepository: PropertyRepository,
-  ) { }
+    @repository(PropertyRepository)
+    protected propertyRepository: PropertyRepository,
+  ) {}
 
   @get('/properties/{id}/address', {
     responses: {
@@ -61,11 +59,12 @@ export class PropertyAddressController {
           schema: getModelSchemaRef(Address, {
             title: 'NewAddressInProperty',
             exclude: ['id'],
-            optional: ['propertyId']
+            optional: ['propertyId'],
           }),
         },
       },
-    }) address: Omit<Address, 'id'>,
+    })
+    address: Omit<Address, 'id'>,
   ): Promise<Address> {
     return this.propertyRepository.address(id).create(address);
   }
@@ -88,7 +87,8 @@ export class PropertyAddressController {
       },
     })
     address: Partial<Address>,
-    @param.query.object('where', getWhereSchemaFor(Address)) where?: Where<Address>,
+    @param.query.object('where', getWhereSchemaFor(Address))
+    where?: Where<Address>,
   ): Promise<Count> {
     return this.propertyRepository.address(id).patch(address, where);
   }
@@ -103,7 +103,8 @@ export class PropertyAddressController {
   })
   async delete(
     @param.path.number('id') id: number,
-    @param.query.object('where', getWhereSchemaFor(Address)) where?: Where<Address>,
+    @param.query.object('where', getWhereSchemaFor(Address))
+    where?: Where<Address>,
   ): Promise<Count> {
     return this.propertyRepository.address(id).delete(where);
   }

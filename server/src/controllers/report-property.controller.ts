@@ -1,22 +1,13 @@
-import {
-  repository,
-} from '@loopback/repository';
-import {
-  param,
-  get,
-  getModelSchemaRef,
-} from '@loopback/rest';
-import {
-  Report,
-  Property,
-} from '../models';
+import {repository} from '@loopback/repository';
+import {param, get, getModelSchemaRef} from '@loopback/rest';
+import {Report, Property} from '../models';
 import {ReportRepository} from '../repositories';
 
 export class ReportPropertyController {
   constructor(
     @repository(ReportRepository)
     public reportRepository: ReportRepository,
-  ) { }
+  ) {}
 
   @get('/reports/{id}/property', {
     responses: {

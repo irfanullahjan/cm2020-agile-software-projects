@@ -15,16 +15,14 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
-import {
-  Property,
-  Image,
-} from '../models';
+import {Property, Image} from '../models';
 import {PropertyRepository} from '../repositories';
 
 export class PropertyImageController {
   constructor(
-    @repository(PropertyRepository) protected propertyRepository: PropertyRepository,
-  ) { }
+    @repository(PropertyRepository)
+    protected propertyRepository: PropertyRepository,
+  ) {}
 
   @get('/properties/{id}/images', {
     responses: {
@@ -61,11 +59,12 @@ export class PropertyImageController {
           schema: getModelSchemaRef(Image, {
             title: 'NewImageInProperty',
             exclude: ['id'],
-            optional: ['propertyId']
+            optional: ['propertyId'],
           }),
         },
       },
-    }) image: Omit<Image, 'id'>,
+    })
+    image: Omit<Image, 'id'>,
   ): Promise<Image> {
     return this.propertyRepository.images(id).create(image);
   }
