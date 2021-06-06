@@ -1,11 +1,37 @@
 import { FormikProvider, useFormik, Form, Field } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import * as Yup from 'yup';
-import { InputText } from '../../common/components/InputText';
-import { RadioGroup } from '../../common/components/RadioGroup';
-import { Select } from '../../common/components/Select';
+import { InputText } from 'components/InputText';
+import { RadioGroup } from 'components/RadioGroup';
+import { Select } from 'components/Select';
+import { useEffect, useState } from 'react';
 
-export default function AddProperty() {
+type Props = {
+  propertyId?: number;
+};
+
+export function PropertyForm(props: Props) {
+  const [propertyData, setPropertyData] = useState({
+    title: '',
+    description: '',
+    area: '',
+    type: '',
+    offer: 'rent',
+    price: '',
+    dateAvailable: '',
+    installments: false,
+  });
+
+  const { propertyId } = props;
+
+  useEffect(() => {
+    propertyId && propertyId > 0
+      ? fetch(`/api/properties/${propertyId}`)
+          .then(res => res.json())
+          .then(jsonData => setPropertyData(jsonData))
+      : null;
+  }, [propertyId]);
+
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Required'),
     area: Yup.number().required('Required'),
@@ -13,19 +39,11 @@ export default function AddProperty() {
     dateAvailable: Yup.date().required('Required'),
   });
   const formikBag = useFormik({
-    initialValues: {
-      title: '',
-      description: '',
-      area: '',
-      type: '',
-      offer: 'rent',
-      price: '',
-      dateAvailable: '',
-      installments: false,
-    },
+    enableReinitialize: true,
+    initialValues: propertyData,
     onSubmit: values =>
-      fetch('/api/properties', {
-        method: 'POST',
+      fetch(propertyId ? `/api/properties/${propertyId}` : '/api/properties', {
+        method: propertyId ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
