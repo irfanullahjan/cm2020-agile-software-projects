@@ -7,10 +7,9 @@ export default function AddProperty() {
   const router = useRouter();
   const { id } = router.query;
 
-  if (!id) return <Spinner />;
-
   return (
     <>
+      <Spinner hidden={id ? false : true} />
       <PropertyForm propertyId={+getAsString(id)} />
     </>
   );

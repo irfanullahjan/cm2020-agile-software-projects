@@ -5,12 +5,15 @@ import { InputText } from 'components/InputText';
 import { RadioGroup } from 'components/RadioGroup';
 import { Select } from 'components/Select';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/dist/client/router';
 
 type Props = {
   propertyId?: number;
 };
 
 export function PropertyForm(props: Props) {
+  const router = useRouter();
+
   const [propertyData, setPropertyData] = useState({
     title: '',
     description: '',
@@ -53,7 +56,7 @@ export function PropertyForm(props: Props) {
           datePosted: new Date(),
           dateAvailable: new Date(values.dateAvailable),
         }),
-      }),
+      }).then(() => router.push('/properties')),
     validationSchema,
   });
   return (
