@@ -21,7 +21,7 @@ export const NavbarTop = () => {
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
+      <Navbar color="light" light expand="md" className="px-0">
         <NavbarBrand href="/">EasyHomes</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
