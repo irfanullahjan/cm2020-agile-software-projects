@@ -1,18 +1,27 @@
-import {FormikProvider, useFormik, Form, Field} from 'formik';
-import {Button, FormGroup, Input, Label} from 'reactstrap';
+import { FormikProvider, useFormik, Form, Field } from 'formik';
+import { Button, FormGroup, Input, Label } from 'reactstrap';
+import * as Yup from 'yup';
+import { InputText } from '../../common/components/InputText';
+import { RadioGroup } from '../../common/components/RadioGroup';
+import { Select } from '../../common/components/Select';
 
 export default function AddProperty() {
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required('Required'),
+    area: Yup.number().required('Required'),
+    price: Yup.number().required('Required'),
+    dateAvailable: Yup.date().required('Required'),
+  });
   const formikBag = useFormik({
     initialValues: {
-      name: '',
+      title: '',
+      description: '',
       area: '',
       type: '',
-      offer: '',
+      offer: 'rent',
       price: '',
-      datePosted: '',
       dateAvailable: '',
       installments: false,
-      description: '',
     },
     onSubmit: values =>
       fetch('/api/properties', {
@@ -22,80 +31,56 @@ export default function AddProperty() {
         },
         body: JSON.stringify({
           ...values,
-          datePosted: new Date(values.datePosted),
+          installments: values.offer === 'sale' ? values.installments : false,
+          datePosted: new Date(),
           dateAvailable: new Date(values.dateAvailable),
         }),
       }),
+    validationSchema,
   });
   return (
     <div>
       <FormikProvider value={formikBag}>
         <Form>
-          <FormGroup>
-            <Label for="title">Title</Label>
-            <Field as={Input} type="text" name="name" id="title" />
-          </FormGroup>
-          <FormGroup>
-            <Label for="description">Description</Label>
-            <Field
-              as={Input}
-              type="textarea"
-              name="description"
-              id="description"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="area">Area (square meters)</Label>
-            <Field as={Input} type="number" name="area" id="area" />
-          </FormGroup>
-          <FormGroup>
-            <Label for="type">Type</Label>
-            <Field as={Input} type="select" name="type" id="type">
-              <option value="land">Land</option>
-              <option value="house">House</option>
-              <option value="apartment">Apartment</option>
-              <option value="commercial">Commercial</option>
-            </Field>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Field as={Input} type="radio" name="offer" value="sale" /> For
-              sale
-            </Label>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Field as={Input} type="radio" name="offer" value="rent" /> For
-              rent
-            </Label>
-          </FormGroup>
+          <InputText label="Title" name="title" />
+          <InputText label="Description" name="description" type="textarea" />
+          <InputText label="Area (square meters)" name="area" type="number" />
+          <Select
+            name="type"
+            items={{
+              land: 'Land',
+              house: 'House',
+              apartment: 'Apartment',
+              commercial: 'Commercial',
+            }}
+          />
+          <RadioGroup
+            name="offer"
+            items={{ rent: 'For rent', sale: 'For sale' }}
+          />
           <br />
-          <FormGroup>
-            <Label for="price">Price (USD)</Label>
-            <Field as={Input} type="number" name="price" id="price" />
-          </FormGroup>
-          <FormGroup>
-            <Label for="datePosted">Date posted</Label>
-            <Field as={Input} type="date" name="datePosted" id="datePosted" />
-          </FormGroup>
-          <FormGroup>
-            <Label for="dateAvailable">Date available</Label>
-            <Field
-              as={Input}
-              type="date"
-              name="dateAvailable"
-              id="dateAvailable"
-            />
-          </FormGroup>
-          <FormGroup check>
-            <Field
-              as={Input}
-              type="checkbox"
-              id="installments"
-              name="installments"
-            />
-            <Label check>Installments</Label>
-          </FormGroup>
+          <InputText
+            label={
+              formikBag.values.offer === 'sale'
+                ? 'Price (USD)'
+                : 'Monthly rent (USD)'
+            }
+            name="price"
+            type="number"
+          />
+          {formikBag.values.offer === 'sale' ? (
+            <FormGroup check>
+              <Field
+                as={Input}
+                type="checkbox"
+                id="installments"
+                name="installments"
+              />
+              <Label check>Available for sale on installements.</Label>
+            </FormGroup>
+          ) : null}
+          <br />
+          <InputText label="Date available" name="dateAvailable" type="date" />
           <br />
           <Button type="submit">Submit</Button>
         </Form>

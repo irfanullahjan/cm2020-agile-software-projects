@@ -27,7 +27,7 @@ export class Property extends Entity {
     type: 'string',
     required: true,
   })
-  name: string;
+  title: string;
 
   @property({
     type: 'number',
