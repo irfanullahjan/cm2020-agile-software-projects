@@ -9,7 +9,7 @@ export default function AddProperty() {
 
   return (
     <>
-      <Spinner hidden={id ? false : true} />
+      {!id && <Spinner />}
       <PropertyForm propertyId={+getAsString(id)} />
     </>
   );
