@@ -3,7 +3,8 @@ import { Spinner, Table } from 'reactstrap';
 import Link from 'next/link';
 
 export default function Properties() {
-  const [propertiesData, setPropertiesData] = useState([]);
+  const [propertiesData, setPropertiesData] =
+    useState<{ [key: string]: string }[] | undefined>(undefined);
   useEffect(() => {
     fetch('/api/properties')
       .then(res => res.json())
@@ -18,28 +19,32 @@ export default function Properties() {
         ),
       );
   }, []);
-  if (propertiesData?.length === 0) return <Spinner />;
+  if (propertiesData === undefined) return <Spinner />;
   return (
     <>
       <h1>Properties</h1>
-      <Table>
-        <thead>
-          <tr>
-            {Object.keys(propertiesData[0]).map((field, i) => (
-              <th key={i}>{field}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {propertiesData.map((row, i) => (
-            <tr key={i}>
-              {Object.keys(row).map((field, i) => (
-                <td key={i}>{row[field]}</td>
+      {propertiesData.length === 0 ? (
+        <p>No properties.</p>
+      ) : (
+        <Table>
+          <thead>
+            <tr>
+              {Object.keys(propertiesData[0]).map((field, i) => (
+                <th key={i}>{field}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {propertiesData.map((row, i) => (
+              <tr key={i}>
+                {Object.keys(row).map((field, i) => (
+                  <td key={i}>{row[field]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
     </>
   );
 }

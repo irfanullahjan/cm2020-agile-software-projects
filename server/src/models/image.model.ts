@@ -1,14 +1,8 @@
 import {Entity, model, property} from '@loopback/repository';
+import { AuditMixin } from './mixins/audit.mixin';
 
 @model()
-export class Image extends Entity {
-  @property({
-    type: 'number',
-    id: true,
-    generated: true,
-  })
-  id?: number;
-
+export class Image extends AuditMixin(Entity) {
   @property({
     type: 'string',
     required: true,

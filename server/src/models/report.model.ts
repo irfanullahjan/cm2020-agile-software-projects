@@ -1,15 +1,9 @@
 import {Entity, model, property, belongsTo} from '@loopback/repository';
+import { AuditMixin } from './mixins/audit.mixin';
 import {Property} from './property.model';
 
 @model()
-export class Report extends Entity {
-  @property({
-    type: 'number',
-    id: true,
-    generated: true,
-  })
-  id?: number;
-
+export class Report extends AuditMixin(Entity) {
   @property({
     type: 'string',
     required: true,
