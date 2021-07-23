@@ -59,7 +59,6 @@ export function PropertyForm(props: Props) {
         body: JSON.stringify({
           ...values,
           installments: values.offer === 'sale' ? values.installments : false,
-          datePosted: new Date(),
           dateAvailable: new Date(values.dateAvailable),
         }),
       }).then(() => router.push('/properties')),
