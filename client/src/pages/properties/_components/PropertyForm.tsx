@@ -37,8 +37,14 @@ export function PropertyForm(props: Props) {
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Required'),
-    area: Yup.number().required('Required'),
-    price: Yup.number().required('Required'),
+    area: Yup.number()
+      .required('Required')
+      .positive('Area cannot be negative.')
+      .integer('Please round to nearest integer.'),
+    price: Yup.number()
+      .required('Required')
+      .positive('Price cannot be negative.')
+      .integer('Please round to nearest integer.'),
     dateAvailable: Yup.date().required('Required'),
   });
   const formikBag = useFormik({
@@ -53,7 +59,6 @@ export function PropertyForm(props: Props) {
         body: JSON.stringify({
           ...values,
           installments: values.offer === 'sale' ? values.installments : false,
-          datePosted: new Date(),
           dateAvailable: new Date(values.dateAvailable),
         }),
       }).then(() => router.push('/properties')),

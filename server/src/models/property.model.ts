@@ -1,4 +1,5 @@
 import {Entity, model, property, hasOne, hasMany} from '@loopback/repository';
+import { AuditMixin } from './mixins/audit.mixin';
 import {Address} from './address.model';
 import {Image} from './image.model';
 
@@ -15,19 +16,17 @@ enum Offer {
 }
 
 @model()
-export class Property extends Entity {
-  @property({
-    type: 'number',
-    id: true,
-    generated: true,
-  })
-  id?: number;
-
+export class Property extends AuditMixin(Entity) {
   @property({
     type: 'string',
     required: true,
   })
   title: string;
+
+  @property({
+    type: 'string',
+  })
+  description?: string;
 
   @property({
     type: 'number',
@@ -55,12 +54,6 @@ export class Property extends Entity {
 
   @property({
     type: 'date',
-    required: true,
-  })
-  datePosted: string;
-
-  @property({
-    type: 'date',
   })
   dateAvailable?: string;
 
@@ -75,11 +68,6 @@ export class Property extends Entity {
     default: false,
   })
   installments?: boolean;
-
-  @property({
-    type: 'string',
-  })
-  description?: string;
 
   @hasOne(() => Address)
   address: Address;
