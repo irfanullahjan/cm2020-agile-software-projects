@@ -1,5 +1,9 @@
 import { PropertyForm } from 'components/PropertyForm';
+import { SessionContext } from '../../pages/_app';
+import { useContext } from 'react';
 
 export default function AddProperty() {
+  const { user, updateSession } = useContext(SessionContext);
+  if (!user) return <p>Unauthorized!!</p>;
   return <PropertyForm />;
 }

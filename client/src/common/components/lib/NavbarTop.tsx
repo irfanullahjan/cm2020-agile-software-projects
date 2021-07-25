@@ -2,18 +2,15 @@ import React, { useContext, useState } from 'react';
 import Link from 'next/link';
 import {
   Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
   Nav,
   NavItem,
   NavLink,
   Navbar,
   NavbarBrand,
   NavbarToggler,
-  UncontrolledDropdown,
 } from 'reactstrap';
 import { SessionContext } from '../../../pages/_app';
+import { useRouter } from 'next/dist/client/router';
 
 export const NavbarTop = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,15 +19,25 @@ export const NavbarTop = () => {
 
   const toggle = () => setIsOpen(!isOpen);
 
-  const handleLogout = () => {
-    localStorage.removeItem('jwt');
-    updateSession();
+  const router = useRouter();
+
+  const handleLogout = (event: any) => {
+    if (confirm('Are you sure you want to logout?')) {
+      event.preventDefault();
+      localStorage.removeItem('jwt');
+      updateSession();
+      router.push('/');
+    }
   };
 
   return (
     <div>
-      <Navbar color="light" light expand="md" className="px-0">
-        <NavbarBrand href="/">EasyHomes</NavbarBrand>
+      <Navbar color="dark" dark expand="md" className="px-0">
+        <NavbarBrand
+          onClick={() => router.push('/')}
+          style={{ cursor: 'pointer' }}>
+          EasyHomes
+        </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
@@ -39,28 +46,21 @@ export const NavbarTop = () => {
                 <NavLink>Browse</NavLink>
               </Link>
             </NavItem>
-            <NavItem>
-              <Link href="/properties/add" passHref>
-                <NavLink>New</NavLink>
-              </Link>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Options
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            {user && (
+              <NavItem>
+                <Link href="/properties/add" passHref>
+                  <NavLink>New</NavLink>
+                </Link>
+              </NavItem>
+            )}
           </Nav>
           <Nav className="mr-0" navbar>
             <NavItem>
               {user ? (
-                <Link href="">
-                  <NavLink onClick={handleLogout}>Logout</NavLink>
+                <Link href="/">
+                  <NavLink onClick={handleLogout} style={{ cursor: 'pointer' }}>
+                    Logout
+                  </NavLink>
                 </Link>
               ) : (
                 <Link href="/login" passHref>

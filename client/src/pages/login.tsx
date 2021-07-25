@@ -6,9 +6,9 @@ import { Button } from 'reactstrap';
 import { SessionContext } from './_app';
 
 export default function Login() {
-  const router = useRouter();
   const { user, updateSession } = useContext(SessionContext);
 
+  const router = useRouter();
   if (user) router.push('/');
 
   const formik = useFormik({
@@ -28,14 +28,26 @@ export default function Login() {
       if (authJson.token) {
         localStorage.setItem('jwt', authJson.token);
       } else {
-        console.error('login failed, please see /src/pages/login.tsx');
+        alert('Login failed, please check your email and password.');
       }
       updateSession();
+    },
+    validate: values => {
+      const errors: { [key: string]: string } = {};
+      if (!values.email) {
+        errors['email'] = 'Email is required';
+      }
+      if (!values.password) {
+        errors['password'] = 'Password is required';
+      }
+      return errors;
     },
   });
 
   return (
     <>
+      <h1>Login</h1>
+      <p>Please enter your credentials to login.</p>
       <FormikProvider value={formik}>
         <Form>
           <InputText type="email" name="email" label="Email" />

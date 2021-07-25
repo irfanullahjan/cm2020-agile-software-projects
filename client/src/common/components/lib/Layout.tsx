@@ -9,7 +9,7 @@ export function Layout(props: Props) {
   const { children } = props;
   return (
     <>
-      <div className="bg-light">
+      <div className="bg-dark">
         <Container>
           <Row>
             <Col>

@@ -10,7 +10,6 @@ export const SessionContext = createContext<any>(null);
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, updateSession] = useSession();
-  console.log(user);
   return (
     <SessionContext.Provider value={{ user, updateSession }}>
       <Layout>
