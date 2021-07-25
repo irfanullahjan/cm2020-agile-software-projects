@@ -1,5 +1,4 @@
 module.exports = {
-  pageExtensions: ['page.tsx'],
   async rewrites() {
     return [
       {

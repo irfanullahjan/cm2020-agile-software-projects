@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Link from 'next/link';
 import {
   Collapse,
@@ -10,15 +10,22 @@ import {
   NavLink,
   Navbar,
   NavbarBrand,
-  NavbarText,
   NavbarToggler,
   UncontrolledDropdown,
 } from 'reactstrap';
+import { SessionContext } from '../../../pages/_app';
 
 export const NavbarTop = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const { user, updateSession } = useContext(SessionContext);
+
   const toggle = () => setIsOpen(!isOpen);
+
+  const handleLogout = () => {
+    localStorage.removeItem('jwt');
+    updateSession();
+  };
 
   return (
     <div>
@@ -49,7 +56,19 @@ export const NavbarTop = () => {
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
+          <Nav className="mr-0" navbar>
+            <NavItem>
+              {user ? (
+                <Link href="">
+                  <NavLink onClick={handleLogout}>Logout</NavLink>
+                </Link>
+              ) : (
+                <Link href="/login" passHref>
+                  <NavLink>Login</NavLink>
+                </Link>
+              )}
+            </NavItem>
+          </Nav>
         </Collapse>
       </Navbar>
     </div>

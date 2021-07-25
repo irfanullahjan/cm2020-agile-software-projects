@@ -1,9 +1,9 @@
 import { FormikProvider, useFormik, Form, Field } from 'formik';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import * as Yup from 'yup';
-import { InputText } from 'components/InputText';
-import { RadioGroup } from 'components/RadioGroup';
-import { Select } from 'components/Select';
+import { InputText } from 'components/lib/InputText';
+import { RadioGroup } from 'components/lib/RadioGroup';
+import { Select } from 'components/lib/Select';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 
@@ -51,7 +51,7 @@ export function PropertyForm(props: Props) {
     enableReinitialize: true,
     initialValues: propertyData,
     onSubmit: values =>
-      fetch(propertyId ? `/api/properties/${propertyId}` : '/api/properties', {
+      fetch(`/api/properties${propertyId ? `/${propertyId}` : ''}`, {
         method: propertyId ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',

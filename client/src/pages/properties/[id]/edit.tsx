@@ -1,7 +1,7 @@
 import { useRouter } from 'next/dist/client/router';
 import { Spinner } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
-import { PropertyForm } from '../_components/PropertyForm';
+import { PropertyForm } from '../../../common/components/PropertyForm';
 
 export default function AddProperty() {
   const router = useRouter();
