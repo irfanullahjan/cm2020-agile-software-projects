@@ -5,10 +5,12 @@ type Props = {
   label: string;
   name: string;
   type?: string;
+  minLength?: number;
+  maxLength?: number;
 };
 
 export function InputText(props: Props) {
-  const { label, name, type } = props;
+  const { label, name, type, ...rest } = props;
   const { touched, errors } = useFormikContext();
 
   // @ts-ignore
@@ -18,9 +20,10 @@ export function InputText(props: Props) {
       <Label>{label}</Label>
       <Field
         as={Input}
-        type={type || 'text'}
+        type={type ?? 'text'}
         name={name}
         invalid={invalid ? true : false}
+        {...rest}
       />
       <ErrorMessage name={name} component={FormFeedback} />
     </FormGroup>

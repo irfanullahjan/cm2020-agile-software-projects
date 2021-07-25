@@ -8,7 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/cookie": "^0.4.1",
     "bootstrap": "4",
+    "cookie": "^0.4.1",
     "formik": "^2.2.9",
     "next": "10.2.3",
     "react": "17.0.2",
