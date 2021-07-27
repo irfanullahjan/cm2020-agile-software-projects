@@ -4,8 +4,9 @@ import * as Yup from 'yup';
 import { InputText } from 'components/lib/InputText';
 import { RadioGroup } from 'components/lib/RadioGroup';
 import { Select } from 'components/lib/Select';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
+import { SessionContext } from '../../pages/_app';
 
 type Props = {
   propertyId?: number;
@@ -13,13 +14,14 @@ type Props = {
 
 export function PropertyForm(props: Props) {
   const router = useRouter();
+  const { user, updateSession } = useContext(SessionContext);
 
   const [propertyData, setPropertyData] = useState({
     title: '',
     description: '',
     area: '',
-    type: '',
-    offer: 'rent',
+    type: 'land',
+    offer: 'sale',
     price: '',
     dateAvailable: '',
     installments: false,
@@ -60,6 +62,7 @@ export function PropertyForm(props: Props) {
           ...values,
           installments: values.offer === 'sale' ? values.installments : false,
           dateAvailable: new Date(values.dateAvailable),
+          userId: user.id,
         }),
       }).then(() => router.push('/properties')),
     validationSchema,

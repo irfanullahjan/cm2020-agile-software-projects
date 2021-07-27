@@ -43,15 +43,22 @@ export const NavbarTop = () => {
           <Nav className="mr-auto" navbar>
             <NavItem>
               <Link href="/properties/" passHref>
-                <NavLink>Browse</NavLink>
+                <NavLink>Browse all</NavLink>
               </Link>
             </NavItem>
             {user && (
-              <NavItem>
-                <Link href="/properties/add" passHref>
-                  <NavLink>New</NavLink>
-                </Link>
-              </NavItem>
+              <>
+                <NavItem>
+                  <Link href="/properties/my-properties" passHref>
+                    <NavLink>My Properties</NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/properties/add" passHref>
+                    <NavLink>New</NavLink>
+                  </Link>
+                </NavItem>
+              </>
             )}
           </Nav>
           <Nav className="mr-0" navbar>

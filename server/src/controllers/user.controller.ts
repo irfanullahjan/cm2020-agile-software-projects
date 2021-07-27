@@ -22,6 +22,8 @@ import {
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import _ from 'lodash';
+import {Property} from '../models';
+import {PropertyRepository} from '../repositories';
 
 @model()
 export class NewUserRequest extends User {
@@ -64,6 +66,8 @@ export class UserController {
     @inject(SecurityBindings.USER, {optional: true})
     public user: UserProfile,
     @repository(UserRepository) protected userRepository: UserRepository,
+    @repository(PropertyRepository)
+    public propertyRepository: PropertyRepository,
   ) {}
 
   @post('/users/login', {
@@ -96,6 +100,31 @@ export class UserController {
     // create a JSON Web Token based on the user profile
     const token = await this.jwtService.generateToken(userProfile);
     return {token};
+  }
+
+  @authenticate('jwt')
+  @get('/user/properties', {
+    responses: {
+      '200': {
+        description: "Return current user's properties",
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: getModelSchemaRef(Property, {includeRelations: true}),
+            },
+          },
+        },
+      },
+    },
+  })
+  async userProperties(
+    @inject(SecurityBindings.USER)
+    currentUserProfile: UserProfile,
+  ): Promise<Property[]> {
+    return this.propertyRepository.find({
+      where: {userId: {eq: currentUserProfile[securityId]}},
+    });
   }
 
   @authenticate('jwt')
