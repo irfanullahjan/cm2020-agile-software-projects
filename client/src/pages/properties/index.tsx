@@ -8,16 +8,7 @@ export default function Properties() {
   useEffect(() => {
     fetch('/api/properties')
       .then(res => res.json())
-      .then(json =>
-        setPropertiesData(
-          json.map((item: { [key: string]: string }) => ({
-            ...item,
-            edit: (
-              <Link href={`/properties/${item.id}/edit`}>{item.title}</Link>
-            ),
-          })),
-        ),
-      );
+      .then(json => setPropertiesData(json));
   }, []);
   if (propertiesData === undefined) return <Spinner />;
   return (
