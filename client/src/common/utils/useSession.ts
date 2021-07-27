@@ -1,6 +1,14 @@
 import { useEffect, useState } from 'react';
+import jwtDecode from 'jwt-decode';
 
-type User = { userId: string; jwt: string } | null;
+type JWT = {
+  id: string;
+  email: string;
+  iat: number;
+  exp: number;
+  token: string;
+};
+type User = { userId: string; jwt: string } | null | unknown;
 
 export function useSession() {
   const [user, setUser] = useState<User>(null);
@@ -13,14 +21,14 @@ export function useSession() {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      const userId = await res.text();
-      if (
-        // match userId with RegExp for UUID
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
-          userId,
-        )
-      ) {
-        setUser({ userId, jwt });
+      if (res.status === 200) {
+        const decoded = jwtDecode<JWT>(jwt);
+        if (decoded.id) {
+          setUser({ ...decoded, token: jwt });
+        } else {
+          localStorage.removeItem('jwt');
+          setUser(null);
+        }
       } else {
         localStorage.removeItem('jwt');
         setUser(null);

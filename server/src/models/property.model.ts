@@ -75,6 +75,12 @@ export class Property extends AuditMixin(Entity) {
   @hasMany(() => Image)
   images: Image[];
 
+  @property({
+    type: 'string',
+    required: true,
+  })
+  userId: string;
+
   constructor(data?: Partial<Property>) {
     super(data);
   }
