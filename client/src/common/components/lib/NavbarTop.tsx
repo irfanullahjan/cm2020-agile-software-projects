@@ -62,19 +62,28 @@ export const NavbarTop = () => {
             )}
           </Nav>
           <Nav className="mr-0" navbar>
-            <NavItem>
-              {user ? (
+            {user ? (
+              <NavItem>
                 <Link href="/">
                   <NavLink onClick={handleLogout} style={{ cursor: 'pointer' }}>
                     Logout
                   </NavLink>
                 </Link>
-              ) : (
-                <Link href="/login" passHref>
-                  <NavLink>Login</NavLink>
-                </Link>
-              )}
-            </NavItem>
+              </NavItem>
+            ) : (
+              <>
+                <NavItem>
+                  <Link href="/signup" passHref>
+                    <NavLink>Signup</NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/login" passHref>
+                    <NavLink>Login</NavLink>
+                  </Link>
+                </NavItem>
+              </>
+            )}
           </Nav>
         </Collapse>
       </Navbar>
