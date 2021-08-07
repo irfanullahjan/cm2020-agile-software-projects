@@ -24,3 +24,31 @@ a {
   flex-direction: column;
   min-height: 100vh;
 }
+
+.not-found {
+  color: #707070;
+  background: #fff;
+  text-align: center;
+  margin: 60px auto;
+  animation-duration: 2s;
+  animation-name: slideup;
+  animation-delay: 1s;
+  animation-fill-mode: backwards;
+}
+
+.not-found, h1 {
+  font-family: "Merriweather", serif;
+  font-size: 120px;
+
+}
+
+.not-found, p {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+hr {
+  width: 15%;
+  margin: 40px auto;
+  border-color: #d5d7de;
+}
