@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Spinner, Table } from 'reactstrap';
 import Link from 'next/link';
 import { SessionContext } from '../../pages/_app';
+import { PropertiesGrid } from 'components/lib/PropertiesGrid';
 
 export default function Properties() {
   const { user, updateSession } = useContext(SessionContext);
@@ -30,27 +31,10 @@ export default function Properties() {
   return (
     <>
       <h1>My Properties</h1>
-      {propertiesData.length === 0 ? (
-        <p>No properties.</p>
+      {propertiesData.length > 0 ? (
+        <PropertiesGrid properties={propertiesData} editable />
       ) : (
-        <Table>
-          <thead>
-            <tr>
-              {Object.keys(propertiesData[0]).map((field, i) => (
-                <th key={i}>{field}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {propertiesData.map((row, i) => (
-              <tr key={i}>
-                {Object.keys(row).map((field, i) => (
-                  <td key={i}>{row[field]}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <p>No properties.</p>
       )}
     </>
   );
