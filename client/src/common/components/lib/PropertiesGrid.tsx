@@ -40,7 +40,7 @@ export function PropertiesGrid(props: Props) {
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
               </CardSubtitle>
-              <CardText>{property.description}</CardText>
+              <CardText>{`Type: ${property.type}`}</CardText>
               <Button color="primary" className="mr-2">
                 View
               </Button>
