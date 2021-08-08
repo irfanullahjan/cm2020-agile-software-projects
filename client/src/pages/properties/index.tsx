@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Spinner } from 'reactstrap';
+import { Spinner } from 'components/lib/Spinner';
 import { PropertiesGrid } from 'components/lib/PropertiesGrid';
 
 export default function Properties() {

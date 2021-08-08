@@ -32,11 +32,17 @@ export function PropertiesGrid(props: Props) {
             <CardBody>
               <CardTitle tag="h5">{property.title}</CardTitle>
               <CardSubtitle tag="h6" className="mb-2 text-muted">
-                {property.price}
+                {property.offer === 'sale'
+                  ? `Sale price: $${property.price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+                  : `Montly rent: $${property.price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
               </CardSubtitle>
               <CardText>{property.description}</CardText>
               <Button color="primary" className="mr-2">
-                Button
+                View
               </Button>
               {editable && (
                 <Link href={`/properties/${property.id}/edit`} passHref>

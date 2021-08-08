@@ -5,5 +5,10 @@ import { useContext } from 'react';
 export default function AddProperty() {
   const { user, updateSession } = useContext(SessionContext);
   if (!user) return <p>Unauthorized!!</p>;
-  return <PropertyForm />;
+  return (
+    <>
+      <h1>Add property</h1>
+      <PropertyForm />
+    </>
+  );
 }
