@@ -1,13 +1,9 @@
 import { ErrorMessage, Field, useFormikContext } from 'formik';
-import { FormFeedback, FormGroup, Input, Label } from 'reactstrap';
+import { FormFeedback, FormGroup, Input, Label, InputProps } from 'reactstrap';
 
-type Props = {
+interface Props extends InputProps {
   label: string;
-  name: string;
-  type?: string;
-  minLength?: number;
-  maxLength?: number;
-};
+}
 
 export function InputText(props: Props) {
   const { label, name, type, ...rest } = props;
@@ -25,7 +21,7 @@ export function InputText(props: Props) {
         invalid={invalid ? true : false}
         {...rest}
       />
-      <ErrorMessage name={name} component={FormFeedback} />
+      {name && <ErrorMessage name={name} component={FormFeedback} />}
     </FormGroup>
   );
 }

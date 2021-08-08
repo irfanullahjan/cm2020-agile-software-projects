@@ -51,7 +51,13 @@ export function PropertyForm(props: Props) {
   });
   const formikBag = useFormik({
     enableReinitialize: true,
-    initialValues: propertyData,
+    initialValues: {
+      ...propertyData,
+      dateAvailable:
+        propertyData.dateAvailable.length > 0
+          ? new Date(propertyData.dateAvailable).toISOString().slice(0, 10)
+          : '',
+    },
     onSubmit: values =>
       fetch(`/api/properties${propertyId ? `/${propertyId}` : ''}`, {
         method: propertyId ? 'PUT' : 'POST',

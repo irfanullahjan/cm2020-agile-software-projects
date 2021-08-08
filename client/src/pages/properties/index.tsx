@@ -1,40 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Spinner, Table } from 'reactstrap';
-import Link from 'next/link';
+import { Spinner } from 'components/lib/Spinner';
+import { PropertiesGrid } from 'components/lib/PropertiesGrid';
 
 export default function Properties() {
+  type Property = { [key: string]: string };
   const [propertiesData, setPropertiesData] =
-    useState<{ [key: string]: string }[] | undefined>(undefined);
+    useState<Property[] | undefined>(undefined);
   useEffect(() => {
     fetch('/api/properties')
       .then(res => res.json())
       .then(json => setPropertiesData(json));
   }, []);
   if (propertiesData === undefined) return <Spinner />;
+
   return (
     <>
       <h1>Properties</h1>
-      {propertiesData.length === 0 ? (
-        <p>No properties.</p>
+      {propertiesData.length > 0 ? (
+        <PropertiesGrid properties={propertiesData} />
       ) : (
-        <Table>
-          <thead>
-            <tr>
-              {Object.keys(propertiesData[0]).map((field, i) => (
-                <th key={i}>{field}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {propertiesData.map((row, i) => (
-              <tr key={i}>
-                {Object.keys(row).map((field, i) => (
-                  <td key={i}>{row[field]}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <p>No properties.</p>
       )}
     </>
   );
