@@ -14,7 +14,7 @@ type Props = {
 
 export function PropertyForm(props: Props) {
   const router = useRouter();
-  const { user, updateSession } = useContext(SessionContext);
+  const { user } = useContext(SessionContext);
 
   const [propertyData, setPropertyData] = useState({
     title: '',
@@ -120,7 +120,6 @@ export function PropertyForm(props: Props) {
           <Button type="submit">Submit</Button>
         </Form>
       </FormikProvider>
-      <pre>{JSON.stringify(formikBag.values, null, 2)}</pre>
     </div>
   );
 }
