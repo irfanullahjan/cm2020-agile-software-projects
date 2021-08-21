@@ -1,5 +1,5 @@
 import { InputText } from 'components/lib/InputText';
-import { Form, FormikProvider, useFormik } from 'formik';
+import { Form, FormikErrors, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/dist/client/router';
 import { useContext } from 'react';
 import { Button } from 'reactstrap';
@@ -31,14 +31,17 @@ export default function Login() {
       if (signupJson.email) router.push('/login');
     },
     validate: values => {
-      const errors: any = {};
+      let errors: FormikErrors<typeof values> = {};
+      if (!values.email) {
+        errors.email = 'Email is required';
+      }
       if (!values.password) {
-        errors['password'] = 'Password is required';
+        errors.password = 'Password is required';
       } else if (values.password.length < 8) {
-        errors['password'] = 'Password must be at least 8 characters';
+        errors.password = 'Password must be at least 8 characters';
       }
       if (values.verifyPassword !== values.password) {
-        errors['verifyPassword'] = "Passwords don't match";
+        errors.verifyPassword = "Passwords don't match";
       }
       return errors;
     },
