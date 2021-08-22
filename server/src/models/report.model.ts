@@ -8,13 +8,7 @@ export class Report extends AuditMixin(Entity) {
     type: 'string',
     required: true,
   })
-  title: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  description: string;
+  reason: string;
 
   @property({
     type: 'boolean',

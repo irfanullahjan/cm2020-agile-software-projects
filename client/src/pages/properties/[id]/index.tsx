@@ -35,9 +35,13 @@ export default function ViewProperty() {
           ))}
         </tbody>
       </Table>
-      {user?.id === property.userId && (
+      {user?.id === property.userId ? (
         <Link href={`/properties/${property.id}/edit`} passHref>
           <a className="btn btn-secondary">Edit</a>
+        </Link>
+      ) : (
+        <Link href={`/properties/${property.id}/report`} passHref>
+          <a className="btn btn-secondary">Report</a>
         </Link>
       )}
     </>
