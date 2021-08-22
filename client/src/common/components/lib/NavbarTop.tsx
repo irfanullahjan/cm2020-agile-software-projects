@@ -58,6 +58,11 @@ export const NavbarTop = () => {
                     <NavLink>New</NavLink>
                   </Link>
                 </NavItem>
+                <NavItem>
+                  <Link href="/reports" passHref>
+                    <NavLink>Reports</NavLink>
+                  </Link>
+                </NavItem>
               </>
             )}
           </Nav>

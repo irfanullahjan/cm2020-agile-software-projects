@@ -19,6 +19,12 @@ export class Report extends AuditMixin(Entity) {
   @belongsTo(() => Property)
   propertyId: number;
 
+  @property({
+    type: 'string',
+    required: true
+  })
+  userId: string
+
   constructor(data?: Partial<Report>) {
     super(data);
   }
