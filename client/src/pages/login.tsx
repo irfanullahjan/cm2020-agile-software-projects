@@ -17,7 +17,7 @@ export default function Login() {
       password: '',
     },
     onSubmit: async values => {
-      const res = await fetch('/api/users/login', {
+      const res = await fetch('/api/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

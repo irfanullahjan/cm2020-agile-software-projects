@@ -70,7 +70,41 @@ export class UserController {
     public propertyRepository: PropertyRepository,
   ) {}
 
-  @post('/users/login', {
+  @post('/user/signup', {
+    responses: {
+      '200': {
+        description: 'User',
+        content: {
+          'application/json': {
+            schema: {
+              'x-ts-type': User,
+            },
+          },
+        },
+      },
+    },
+  })
+  async signUp(
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(NewUserRequest, {
+            title: 'NewUser',
+          }),
+        },
+      },
+    })
+    newUserRequest: NewUserRequest,
+  ): Promise<User> {
+    const password = await hash(newUserRequest.password, await genSalt());
+    const savedUser = await this.userRepository.create(
+      _.omit(newUserRequest, 'password'),
+    );
+    await this.userRepository.userCredentials(savedUser.id).create({password});
+    return savedUser;
+  }
+
+  @post('/user/login', {
     responses: {
       '200': {
         description: 'Token',
@@ -103,85 +137,22 @@ export class UserController {
   }
 
   @authenticate('jwt')
-  @get('/user/properties', {
+  @get('/user/current', {
     responses: {
       '200': {
-        description: "Return current user's properties",
+        description: 'Return current user details',
         content: {
           'application/json': {
-            schema: {
-              type: 'array',
-              items: getModelSchemaRef(Property, {includeRelations: true}),
-            },
+            schema: getModelSchemaRef(User),
           },
         },
       },
     },
   })
-  async userProperties(
+  async userDetails(
     @inject(SecurityBindings.USER)
     currentUserProfile: UserProfile,
-  ): Promise<Property[]> {
-    return this.propertyRepository.find({
-      where: {userId: {eq: currentUserProfile[securityId]}},
-    });
-  }
-
-  @authenticate('jwt')
-  @get('/whoAmI', {
-    responses: {
-      '200': {
-        description: 'Return current user',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
-  })
-  async whoAmI(
-    @inject(SecurityBindings.USER)
-    currentUserProfile: UserProfile,
-  ): Promise<string> {
-    return currentUserProfile[securityId];
-  }
-
-  @post('/signup', {
-    responses: {
-      '200': {
-        description: 'User',
-        content: {
-          'application/json': {
-            schema: {
-              'x-ts-type': User,
-            },
-          },
-        },
-      },
-    },
-  })
-  async signUp(
-    @requestBody({
-      content: {
-        'application/json': {
-          schema: getModelSchemaRef(NewUserRequest, {
-            title: 'NewUser',
-          }),
-        },
-      },
-    })
-    newUserRequest: NewUserRequest,
   ): Promise<User> {
-    const password = await hash(newUserRequest.password, await genSalt());
-    const savedUser = await this.userRepository.create(
-      _.omit(newUserRequest, 'password'),
-    );
-
-    await this.userRepository.userCredentials(savedUser.id).create({password});
-
-    return savedUser;
+    return this.userService.findUserById(currentUserProfile[securityId]);
   }
 }
