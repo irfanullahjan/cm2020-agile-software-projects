@@ -16,9 +16,12 @@ This is the frontend of the website i.e. the one containing the UI and is mostly
 
 ## How to run the application?
 
-Install the dependencies:
+Please run the following commans in the given order
 
 ```bash
-npm i --prefix ./server ./server 
-npm i --prefix client client 
+cd server
+npm install
+cd ..
+cd client
+npm install
 ```
