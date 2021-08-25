@@ -1,6 +1,6 @@
 # EasyHomes
 
-The is a dynamic web application for posting and browsing real eastate properties and it is made up of two major components, one for backend API and the other for front-end functionality:
+The is a dynamic web application for posting and browsing real estate properties and it is made up of two major components, one for backend API and the other for front-end functionality:
 
 ## Components
 
@@ -16,7 +16,7 @@ This is the frontend of the website i.e. the one containing the UI and is mostly
 
 ## How to run the application?
 
-Please run the following commans in the given order.
+Please run the following commands in the given order.
 
 Install server:
 
@@ -37,12 +37,14 @@ cd ..
 Start server:
 
 ```bash
+cd server
 npm run start
 ```
 
 Start client (In a seperate terminal):
 
 ```bash
+cd client
 npm run dev
 ```
 
@@ -81,7 +83,7 @@ One the above is done, please restart the server by stopping the server process 
 yarn start ## on /server directory
 ```
 
-## Database and data persistance
+## Database and data persistence
 
 To allow easir testing and development, the app currently uses an in-memory database instead of persisted on storage databases such as MySQL or PostgreSQL.
 
