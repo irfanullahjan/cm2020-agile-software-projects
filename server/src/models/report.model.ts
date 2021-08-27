@@ -16,7 +16,10 @@ export class Report extends AuditMixin(Entity) {
   })
   resolved?: boolean;
 
-  @belongsTo(() => Property)
+  @property({
+    type: 'number',
+    required: true,
+  })
   propertyId: number;
 
   @property({

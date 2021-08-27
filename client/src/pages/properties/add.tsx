@@ -3,7 +3,7 @@ import { SessionContext } from '../../pages/_app';
 import { useContext } from 'react';
 
 export default function AddProperty() {
-  const { user, updateSession } = useContext(SessionContext);
+  const { user } = useContext(SessionContext);
   if (!user) return <p>Unauthorized!!</p>;
   return (
     <>

@@ -7,7 +7,7 @@ import { Button } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
 
 export default function ReportProperty() {
-  const { user, updateSession } = useContext(SessionContext);
+  const { user } = useContext(SessionContext);
   if (!user) return <p>Unauthorized!!</p>;
   const router = useRouter();
   const id = +getAsString(router.query.id);
@@ -17,6 +17,7 @@ export default function ReportProperty() {
     initialValues: {
       reason: '',
       propertyId: id,
+      userId: user.id,
     },
     onSubmit: async values => {
       const res = await fetch('/api/reports', {
