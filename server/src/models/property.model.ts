@@ -2,6 +2,7 @@ import {Entity, model, property, hasOne, hasMany} from '@loopback/repository';
 import { AuditMixin } from './mixins/audit.mixin';
 import {Address} from './address.model';
 import {Image} from './image.model';
+import { Report } from './report.model';
 
 enum Type {
   LAND = 'land',
@@ -74,6 +75,9 @@ export class Property extends AuditMixin(Entity) {
 
   @hasMany(() => Image)
   images: Image[];
+
+  @hasMany(() => Report)
+  reports: Report[];
 
   @property({
     type: 'string',

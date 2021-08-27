@@ -19,12 +19,14 @@ import {
   response,
 } from '@loopback/rest';
 import {Property} from '../models';
-import {PropertyRepository} from '../repositories';
+import {PropertyRepository, ReportRepository} from '../repositories';
 
 export class PropertyController {
   constructor(
     @repository(PropertyRepository)
     public propertyRepository: PropertyRepository,
+    @repository(ReportRepository)
+    public reportRepository: ReportRepository,
   ) {}
 
   @post('/properties')
@@ -73,6 +75,29 @@ export class PropertyController {
     @param.filter(Property) filter?: Filter<Property>,
   ): Promise<Property[]> {
     return this.propertyRepository.find(filter);
+  }
+
+  @get('/reported-properties')
+  @response(200, {
+    description: 'Array of Property model instances',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(Property, {includeRelations: true}),
+        },
+      },
+    },
+  })
+  async findReportedProperties(): Promise<Property[]> {
+    const reports = await this.reportRepository.find({
+      where: {resolved: false},
+    });
+    const idsFilter = reports.map(report => ({id: report.propertyId}));
+    return this.propertyRepository.find({
+      where: {or: idsFilter},
+      include: [{relation: 'reports', scope: {where: {resolved: false}}}],
+    });
   }
 
   @patch('/properties')

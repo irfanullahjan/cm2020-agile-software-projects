@@ -4,8 +4,9 @@ import { PropertiesGrid } from 'components/lib/PropertiesGrid';
 
 export default function Properties() {
   type Property = { [key: string]: string };
-  const [propertiesData, setPropertiesData] =
-    useState<Property[] | undefined>(undefined);
+  const [propertiesData, setPropertiesData] = useState<Property[] | undefined>(
+    undefined,
+  );
   useEffect(() => {
     fetch('/api/properties')
       .then(res => res.json())

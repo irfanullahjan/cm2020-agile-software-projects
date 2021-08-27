@@ -8,13 +8,7 @@ export class Report extends AuditMixin(Entity) {
     type: 'string',
     required: true,
   })
-  title: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  description: string;
+  reason: string;
 
   @property({
     type: 'boolean',
@@ -22,8 +16,17 @@ export class Report extends AuditMixin(Entity) {
   })
   resolved?: boolean;
 
-  @belongsTo(() => Property)
+  @property({
+    type: 'number',
+    required: true,
+  })
   propertyId: number;
+
+  @property({
+    type: 'string',
+    required: true
+  })
+  userId: string
 
   constructor(data?: Partial<Report>) {
     super(data);

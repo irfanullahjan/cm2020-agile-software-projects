@@ -10,7 +10,7 @@ export default function Properties() {
     useState<{ [key: string]: string }[] | undefined>(undefined);
   useEffect(() => {
     if (user) {
-      fetch('/api/user/properties', {
+      fetch(`/api/properties?filter[where][userId]=${user.id}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
