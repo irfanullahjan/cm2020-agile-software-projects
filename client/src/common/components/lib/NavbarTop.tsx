@@ -50,11 +50,20 @@ export const NavbarTop = () => {
                   </Link>
                 </NavItem>
                 {user?.realm === 'admin' && (
-                  <NavItem>
-                    <Link href="/reports" passHref>
-                      <NavLink>Reports</NavLink>
-                    </Link>
-                  </NavItem>
+                  <>
+                    <NavItem>
+                      <Link href="/reports" passHref>
+                        <NavLink title="Review reports against properties">
+                          Reports
+                        </NavLink>
+                      </Link>
+                    </NavItem>
+                    <NavItem>
+                      <Link href="/verify" passHref>
+                        <NavLink title="Set users as verified">Verify</NavLink>
+                      </Link>
+                    </NavItem>
+                  </>
                 )}
               </>
             )}
