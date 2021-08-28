@@ -8,6 +8,7 @@ import {
   Navbar,
   NavbarBrand,
   NavbarToggler,
+  NavbarText,
 } from 'reactstrap';
 import { SessionContext } from '../../../pages/_app';
 import { useRouter } from 'next/dist/client/router';
@@ -41,21 +42,11 @@ export const NavbarTop = () => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem>
-              <Link href="/properties/" passHref>
-                <NavLink>Browse all</NavLink>
-              </Link>
-            </NavItem>
             {user && (
               <>
                 <NavItem>
-                  <Link href="/properties/add" passHref>
+                  <Link href="/add" passHref>
                     <NavLink>New</NavLink>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link href="/properties/my-properties" passHref>
-                    <NavLink>My Properties</NavLink>
                   </Link>
                 </NavItem>
                 {user?.realm === 'admin' && (
@@ -70,13 +61,25 @@ export const NavbarTop = () => {
           </Nav>
           <Nav className="mr-0" navbar>
             {user ? (
-              <NavItem>
-                <Link href="/">
-                  <NavLink onClick={handleLogout} style={{ cursor: 'pointer' }}>
-                    Logout
-                  </NavLink>
-                </Link>
-              </NavItem>
+              <>
+                <NavbarText>Logged in as:</NavbarText>
+                <NavItem>
+                  <Link href="/user" passHref>
+                    <NavLink title="Click to user details, including properties posted">
+                      {user.username}
+                    </NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/">
+                    <NavLink
+                      onClick={handleLogout}
+                      style={{ cursor: 'pointer' }}>
+                      Logout
+                    </NavLink>
+                  </Link>
+                </NavItem>
+              </>
             ) : (
               <>
                 <NavItem>

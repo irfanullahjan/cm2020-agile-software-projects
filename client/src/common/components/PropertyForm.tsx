@@ -70,7 +70,7 @@ export function PropertyForm(props: Props) {
           dateAvailable: new Date(values.dateAvailable),
           userId: user.id,
         }),
-      }).then(() => router.push('/properties')),
+      }).then(() => router.push('/')),
     validationSchema,
   });
   return (
@@ -81,6 +81,7 @@ export function PropertyForm(props: Props) {
           <InputText label="Description" name="description" type="textarea" />
           <InputText label="Area (square meters)" name="area" type="number" />
           <Select
+            label="Type"
             name="type"
             items={{
               land: 'Land',

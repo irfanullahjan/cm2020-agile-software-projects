@@ -1,6 +1,6 @@
 import { Spinner } from 'components/lib/Spinner';
 import { useRouter } from 'next/dist/client/router';
-import { SessionContext } from '../../../pages/_app';
+import { SessionContext } from '../_app';
 import { useContext, useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
@@ -37,11 +37,11 @@ export default function ViewProperty() {
       </Table>
       {user &&
         (user.id === property.userId ? (
-          <Link href={`/properties/${property.id}/edit`} passHref>
+          <Link href={`/${property.id}/edit`} passHref>
             <a className="btn btn-secondary">Edit</a>
           </Link>
         ) : (
-          <Link href={`/properties/${property.id}/report`} passHref>
+          <Link href={`/${property.id}/report`} passHref>
             <a className="btn btn-secondary">Report</a>
           </Link>
         ))}

@@ -80,7 +80,7 @@ Please go to `/server/src/observers/seed.observer.ts` and add a new object entry
 One the above is done, please restart the server by stopping the server process and then do:
 
 ```bash
-yarn start ## on /server directory
+npm run start ## on /server directory
 ```
 
 ## Database and data persistence

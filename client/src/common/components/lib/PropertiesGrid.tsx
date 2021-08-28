@@ -19,7 +19,7 @@ type Props = {
 export function PropertiesGrid(props: Props) {
   const { properties, editable } = props;
   return (
-    <Row>
+    <Row className="my-4">
       {properties.map((property, i) => (
         <Col key={i} className="col-12 col-md-6 col-lg-4 mb-4">
           <Card>
@@ -41,11 +41,11 @@ export function PropertiesGrid(props: Props) {
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
               </CardSubtitle>
               <CardText>{`Type: ${property.type}`}</CardText>
-              <Link href={`/properties/${property.id}`} passHref>
+              <Link href={`/${property.id}`} passHref>
                 <a className="btn btn-primary mr-2">View</a>
               </Link>
               {editable && (
-                <Link href={`/properties/${property.id}/edit`} passHref>
+                <Link href={`/${property.id}/edit`} passHref>
                   <a className="btn btn-secondary">Edit</a>
                 </Link>
               )}

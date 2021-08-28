@@ -1,5 +1,5 @@
 import { PropertyForm } from 'components/PropertyForm';
-import { SessionContext } from '../../pages/_app';
+import { SessionContext } from '../pages/_app';
 import { useContext } from 'react';
 
 export default function AddProperty() {
