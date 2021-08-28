@@ -4,14 +4,14 @@ import {Address} from './address.model';
 import {Image} from './image.model';
 import { Report } from './report.model';
 
-enum Type {
+export enum Type {
   LAND = 'land',
   HOUSE = 'house',
   APARTMENT = 'apartment',
   COMMERCIAL = 'commercial'
 }
 
-enum Offer {
+export enum Offer {
   SALE = 'sale',
   RENT = 'rent',
 }
