@@ -18,7 +18,6 @@ export default function ReportedProperties() {
   }, []);
   if (user?.realm !== 'admin') return <p>Unauthorized!!</p>;
   if (!reportedProperties) return <Spinner />;
-  console.log(reportedProperties);
   return (
     <>
       <h1>Reports</h1>

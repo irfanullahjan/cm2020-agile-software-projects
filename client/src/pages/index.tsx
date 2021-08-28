@@ -9,7 +9,9 @@ import { Select } from 'components/lib/Select';
 export default function Properties() {
   type Property = { [key: string]: string };
   const [loading, setLoading] = useState(false);
-  const [searchFilter, setSearchFilter] = useState<string>();
+  const [searchFilter, setSearchFilter] = useState<string>(
+    JSON.stringify({ include: ['user'] }),
+  );
   const [propertiesData, setPropertiesData] = useState<Property[]>([]);
   useEffect(() => {
     setLoading(true);
@@ -56,10 +58,13 @@ export default function Properties() {
           lte: +values.maxArea,
         };
       }
+      const includeFilter = { include: ['user'] };
       if (Object.keys(whereFilter).length > 0) {
-        setSearchFilter(JSON.stringify({ where: whereFilter }));
+        setSearchFilter(
+          JSON.stringify({ where: whereFilter, ...includeFilter }),
+        );
       } else {
-        setSearchFilter(undefined);
+        setSearchFilter(JSON.stringify({ ...includeFilter }));
       }
     },
   });

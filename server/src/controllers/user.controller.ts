@@ -7,6 +7,7 @@ import {
   MyUserService,
   TokenServiceBindings,
   User,
+  UserRelations,
   UserRepository,
   UserServiceBindings,
 } from '@loopback/authentication-jwt';
@@ -15,6 +16,8 @@ import {model, property, repository} from '@loopback/repository';
 import {
   get,
   getModelSchemaRef,
+  HttpErrors,
+  param,
   post,
   requestBody,
   SchemaObject,
@@ -98,7 +101,7 @@ export class UserController {
   ): Promise<User> {
     const password = await hash(newUserRequest.password, await genSalt());
     const savedUser = await this.userRepository.create(
-      _.omit(newUserRequest, 'password'),
+      _.omit({...newUserRequest, realm: 'unverified'}, 'password'),
     );
     await this.userRepository.userCredentials(savedUser.id).create({password});
     return savedUser;
@@ -154,5 +157,42 @@ export class UserController {
     currentUserProfile: UserProfile,
   ): Promise<User> {
     return this.userService.findUserById(currentUserProfile[securityId]);
+  }
+
+  @get('/user/all', {
+    responses: {
+      '200': {
+        description: 'Return current user details',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'array',
+              items: getModelSchemaRef(User),
+            },
+          },
+        },
+      },
+    },
+  })
+  async userDetailsAll(): Promise<(User & UserRelations)[]> {
+    return this.userService.userRepository.find();
+  }
+
+  @get('/user/realm/{id}/{realm}', {
+    responses: {
+      '200': {
+        description: 'Set User realm',
+      },
+    },
+  })
+  async userSetVerified(
+    @param.path.string('id') id: string,
+    @param.path.string('realm') realm: string,
+  ): Promise<void> {
+    if (realm === 'verified' || realm === 'unverified') {
+      return this.userService.userRepository.updateById(id, {realm});
+    } else {
+      throw new HttpErrors.BadRequest('This realm is not allowed.');
+    }
   }
 }

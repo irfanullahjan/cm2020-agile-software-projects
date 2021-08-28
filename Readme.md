@@ -58,9 +58,9 @@ To access the backend i.e. REST API explorer, go to [localhost:3001/explorer](ht
 
 To use the application as a user, an account needs to be created. To do this, go to [localhost:3000](http://localhost:3000) click "Signup" near the upper right corner. Signup using any real or fake email. If the signup fails, try a different email and username combination.
 
-## Admin rights
+## User rights
 
-The website supports admin roles, however, for security reasons, admin roles are not made using the signup form. For testing purpose, the following admin role is available for you to use:
+The website supports admin roles, and normal user roles (either verified or unverified) however, for security reasons, admin roles are not made using the signup form. For testing purpose, the following admin role is available for you to use:
 
 <details>
   <summary>Admin credentials, SECRET!! (please click to reveal)</summary>
@@ -73,11 +73,20 @@ The website supports admin roles, however, for security reasons, admin roles are
   ```
 </details>
 
+Admins have rights to delete properties if users have reported them. Admins can also set other users as verified or unverified.
+
+Properties posted by verified users have a green badge in grid view.
+
+When the app is launched there are two user accounts created as well just to enable creation of dummy properties under those accounts.
+
+You may also create your own user account by signing up in the upper right hand corner.
+
+
 ### How to create more admin roles?
 
 Please go to `/server/src/observers/seed.observer.ts` and add a new object entry to `const users` array. This can be used for creating other types of users as well, and for admin, the property `realm` should be `admin`. Please note that duplicate entries will fail, so double check the values for `email` and `username`.
 
-One the above is done, please restart the server by stopping the server process and then do:
+Once the above is done, please restart the server by stopping the server process and then do:
 
 ```bash
 npm run start ## on /server directory

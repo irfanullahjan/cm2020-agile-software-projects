@@ -1,17 +1,18 @@
-import {Entity, model, property, hasOne, hasMany} from '@loopback/repository';
+import {Entity, model, property, hasOne, hasMany, belongsTo} from '@loopback/repository';
 import { AuditMixin } from './mixins/audit.mixin';
 import {Address} from './address.model';
 import {Image} from './image.model';
 import { Report } from './report.model';
+import { User } from '@loopback/authentication-jwt';
 
-enum Type {
+export enum Type {
   LAND = 'land',
   HOUSE = 'house',
   APARTMENT = 'apartment',
   COMMERCIAL = 'commercial'
 }
 
-enum Offer {
+export enum Offer {
   SALE = 'sale',
   RENT = 'rent',
 }
@@ -79,10 +80,7 @@ export class Property extends AuditMixin(Entity) {
   @hasMany(() => Report)
   reports: Report[];
 
-  @property({
-    type: 'string',
-    required: true,
-  })
+  @belongsTo(() => User)
   userId: string;
 
   constructor(data?: Partial<Property>) {
