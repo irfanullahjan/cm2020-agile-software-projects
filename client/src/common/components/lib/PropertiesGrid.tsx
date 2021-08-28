@@ -19,7 +19,7 @@ type Props = {
 export function PropertiesGrid(props: Props) {
   const { properties, editable } = props;
   return (
-    <Row>
+    <Row className="my-4">
       {properties.map((property, i) => (
         <Col key={i} className="col-12 col-md-6 col-lg-4 mb-4">
           <Card>

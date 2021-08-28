@@ -81,6 +81,7 @@ export function PropertyForm(props: Props) {
           <InputText label="Description" name="description" type="textarea" />
           <InputText label="Area (square meters)" name="area" type="number" />
           <Select
+            label="Type"
             name="type"
             items={{
               land: 'Land',
