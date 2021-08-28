@@ -1,7 +1,7 @@
 import { InputText } from 'components/lib/InputText';
 import { Form, FormikErrors, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import { SessionContext } from '../../../pages/_app';
+import { SessionContext } from '../_app';
 import { useContext } from 'react';
 import { Button } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
@@ -29,7 +29,7 @@ export default function ReportProperty() {
       });
       const json = await res.json();
       if (json?.id) {
-        router.push('/properties');
+        router.push('/');
       } else {
         alert('Report creation failed.');
       }

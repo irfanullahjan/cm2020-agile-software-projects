@@ -70,7 +70,7 @@ export function PropertyForm(props: Props) {
           dateAvailable: new Date(values.dateAvailable),
           userId: user.id,
         }),
-      }).then(() => router.push('/properties')),
+      }).then(() => router.push('/')),
     validationSchema,
   });
   return (
