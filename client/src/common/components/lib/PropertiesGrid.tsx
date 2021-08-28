@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import {
-  Button,
+  Badge,
   Card,
   CardBody,
   CardImg,
@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 
 type Props = {
-  properties: { [key: string]: string }[];
+  properties: { [key: string]: any }[];
   editable?: boolean;
 };
 
@@ -30,13 +30,18 @@ export function PropertiesGrid(props: Props) {
               alt="Card image cap"
             />
             <CardBody>
-              <CardTitle tag="h5">{property.title}</CardTitle>
+              <CardTitle tag="h5">
+                {property.title}{' '}
+                {property.user.realm === 'verified' && (
+                  <Badge color="success">Verified</Badge>
+                )}
+              </CardTitle>
               <CardSubtitle tag="h6" className="mb-2 text-muted">
                 {property.offer === 'sale'
                   ? `Sale price: $${property.price
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-                  : `Montly rent: $${property.price
+                  : `Annual rent: $${property.price
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
               </CardSubtitle>

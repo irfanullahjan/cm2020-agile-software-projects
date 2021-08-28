@@ -1,7 +1,4 @@
-import {
-  UserRepository,
-  UserServiceBindings,
-} from '@loopback/authentication-jwt';
+import {UserRepository} from '@loopback/authentication-jwt';
 import {lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {genSalt, hash} from 'bcryptjs';
@@ -21,13 +18,13 @@ const users: Array<{
     password: 'Admin!234',
   },
   {
-    realm: 'verifed',
+    realm: 'verified',
     username: 'user1',
     email: 'user1@example.com',
     password: 'useruser',
   },
   {
-    realm: 'unverifed',
+    realm: 'unverified',
     username: 'user2',
     email: 'user2@example.com',
     password: 'useruser',

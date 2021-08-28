@@ -46,12 +46,16 @@ export default function VerifyUsers() {
               <td>
                 {user.realm &&
                   user.realm !== 'admin' &&
-                  (user.realm === 'user' ? (
-                    <Button onClick={() => setUserRealm(user.id, 'verified')}>
+                  (user.realm === 'unverified' ? (
+                    <Button
+                      color="success"
+                      onClick={() => setUserRealm(user.id, 'verified')}>
                       Set Verified
                     </Button>
                   ) : (
-                    <Button onClick={() => setUserRealm(user.id, 'unverified')}>
+                    <Button
+                      color="danger"
+                      onClick={() => setUserRealm(user.id, 'unverified')}>
                       Set Unverified
                     </Button>
                   ))}
