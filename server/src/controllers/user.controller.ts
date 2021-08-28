@@ -101,7 +101,7 @@ export class UserController {
   ): Promise<User> {
     const password = await hash(newUserRequest.password, await genSalt());
     const savedUser = await this.userRepository.create(
-      _.omit({...newUserRequest, realm: 'user'}, 'password'),
+      _.omit({...newUserRequest, realm: 'unverified'}, 'password'),
     );
     await this.userRepository.userCredentials(savedUser.id).create({password});
     return savedUser;
@@ -189,7 +189,7 @@ export class UserController {
     @param.path.string('id') id: string,
     @param.path.string('realm') realm: string,
   ): Promise<void> {
-    if (realm === 'verified' || realm === 'user') {
+    if (realm === 'verified' || realm === 'unverified') {
       return this.userService.userRepository.updateById(id, {realm});
     } else {
       throw new HttpErrors.BadRequest('This realm is not allowed.');

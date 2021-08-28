@@ -51,7 +51,7 @@ export default function VerifyUsers() {
                       Set Verified
                     </Button>
                   ) : (
-                    <Button onClick={() => setUserRealm(user.id, 'user')}>
+                    <Button onClick={() => setUserRealm(user.id, 'unverified')}>
                       Set Unverified
                     </Button>
                   ))}
