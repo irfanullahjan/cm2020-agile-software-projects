@@ -58,13 +58,13 @@ export default function Properties() {
           lte: +values.maxArea,
         };
       }
-      const includeFilter = { include: ['user'] };
+      const defaultFilter = { include: ['user'], order: 'createStamp DESC' };
       if (Object.keys(whereFilter).length > 0) {
         setSearchFilter(
-          JSON.stringify({ where: whereFilter, ...includeFilter }),
+          JSON.stringify({ where: whereFilter, ...defaultFilter }),
         );
       } else {
-        setSearchFilter(JSON.stringify({ ...includeFilter }));
+        setSearchFilter(JSON.stringify({ ...defaultFilter }));
       }
     },
   });

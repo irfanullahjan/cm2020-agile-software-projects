@@ -14,7 +14,7 @@ export default function VerifyUsers() {
       .then(res => res.json())
       .then(json => {
         setLoading(false);
-        setUsers(json);
+        setUsers(json.filter((user: any) => user.realm !== 'admin'));
       });
   };
 

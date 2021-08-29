@@ -71,6 +71,7 @@ export class SeedObserver implements LifeCycleObserver {
             Math.floor(Math.random() * properties.areas.length)
           ],
           userId: userCreated.id,
+          dateAvailable: new Date(),
         });
       }
     });

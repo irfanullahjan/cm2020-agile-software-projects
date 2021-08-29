@@ -1,5 +1,5 @@
-import { MixinTarget } from '@loopback/core';
-import { property } from '@loopback/repository';
+import {MixinTarget} from '@loopback/core';
+import {property} from '@loopback/repository';
 
 export function AuditMixin<T extends MixinTarget<object>>(baseClass: T) {
   class Mixin extends baseClass {
@@ -12,11 +12,13 @@ export function AuditMixin<T extends MixinTarget<object>>(baseClass: T) {
 
     @property({
       type: 'date',
+      default: () => new Date(),
     })
     createStamp?: Date;
 
     @property({
       type: 'date',
+      default: () => new Date(),
     })
     updateStamp?: Date;
   }

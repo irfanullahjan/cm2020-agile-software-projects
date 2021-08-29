@@ -35,6 +35,9 @@ export function PropertiesGrid(props: Props) {
                 {property.user.realm === 'verified' && (
                   <Badge color="success">Verified</Badge>
                 )}
+                {property.user.realm === 'admin' && (
+                  <Badge color="success">Admin</Badge>
+                )}
               </CardTitle>
               <CardSubtitle tag="h6" className="mb-2 text-muted">
                 {property.offer === 'sale'
