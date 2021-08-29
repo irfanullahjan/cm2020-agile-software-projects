@@ -28,7 +28,7 @@ npm install
 npm run start
 ```
 
-Install and run cient (in a seperate terminal):
+Install and run client (in a seperate terminal):
 
 ```bash
 cd client
