@@ -26,7 +26,7 @@ export default function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(formData),
       });
       const signupJson = await res.json();
       if (signupJson.email) router.push('/login');
