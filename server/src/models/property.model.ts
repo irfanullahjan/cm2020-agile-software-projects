@@ -1,15 +1,22 @@
-import {Entity, model, property, hasOne, hasMany, belongsTo} from '@loopback/repository';
-import { AuditMixin } from './mixins/audit.mixin';
+import {
+  Entity,
+  model,
+  property,
+  hasOne,
+  hasMany,
+  belongsTo,
+} from '@loopback/repository';
+import {AuditMixin} from './mixins/audit.mixin';
 import {Address} from './address.model';
 import {Image} from './image.model';
-import { Report } from './report.model';
-import { User } from '@loopback/authentication-jwt';
+import {Report} from './report.model';
+import {User} from '@loopback/authentication-jwt';
 
 export enum Type {
   LAND = 'land',
   HOUSE = 'house',
   APARTMENT = 'apartment',
-  COMMERCIAL = 'commercial'
+  COMMERCIAL = 'commercial',
 }
 
 export enum Offer {
@@ -40,8 +47,8 @@ export class Property extends AuditMixin(Entity) {
     type: 'string',
     required: true,
     jsonSchema: {
-      enum: Object.values(Type)
-    }
+      enum: Object.values(Type),
+    },
   })
   type: Type;
 
@@ -49,15 +56,16 @@ export class Property extends AuditMixin(Entity) {
     type: 'string',
     required: true,
     jsonSchema: {
-      enum: Object.values(Offer)
-    }
+      enum: Object.values(Offer),
+    },
   })
   offer: Offer;
 
   @property({
     type: 'date',
+    default: new Date(),
   })
-  dateAvailable?: string;
+  dateAvailable?: Date;
 
   @property({
     type: 'number',
