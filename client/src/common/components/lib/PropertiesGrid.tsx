@@ -32,10 +32,10 @@ export function PropertiesGrid(props: Props) {
             <CardBody>
               <CardTitle tag="h5">
                 {property.title}{' '}
-                {property.user?.realm === 'verified' && (
+                {property.user.realm === 'verified' && (
                   <Badge color="success">Verified</Badge>
                 )}
-                {property.user?.realm === 'admin' && (
+                {property.user.realm === 'admin' && (
                   <Badge color="success">Admin</Badge>
                 )}
               </CardTitle>

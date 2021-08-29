@@ -72,8 +72,6 @@ export class SeedObserver implements LifeCycleObserver {
           ],
           userId: userCreated.id,
           dateAvailable: new Date(),
-          createStamp: new Date(),
-          updateStamp: new Date(),
         });
       }
     });

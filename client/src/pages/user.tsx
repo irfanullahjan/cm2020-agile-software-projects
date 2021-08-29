@@ -11,11 +11,14 @@ export default function Properties() {
   >(undefined);
   useEffect(() => {
     if (user) {
-      fetch(`/api/properties?filter[where][userId]=${user.id}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
+      fetch(
+        `/api/properties?filter[include][]=user&filter[where][userId]=${user.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
         },
-      })
+      )
         .then(res => res.json())
         .then(json =>
           setPropertiesData(
