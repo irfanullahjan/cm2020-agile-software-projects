@@ -12,39 +12,31 @@ It is located in `/server` directory.
 
 This is the frontend of the website i.e. the one containing the UI and is mostly client side, thought there is server side rendering as well which is supported by Next.js.
 
+It is located in `/client` directory.
+
 ## How to run the application?
+
+Because the applciation is composed to two parts i.e. the backend (Loopback) and the frontend (Next.js), we need to run both to be able to use the application. Both of thse need to be running in seperate terminals.
 
 Please run the following commands in the given order.
 
-Install server:
+Install and run server:
 
 ```bash
 cd server
 npm install
-cd ..
-```
-
-Install cient:
-
-```bash
-cd client
-npm install
-cd ..
-```
-
-Start server:
-
-```bash
-cd server
 npm run start
 ```
 
-Start client (In a seperate terminal):
+Install and run cient (in a seperate terminal):
 
 ```bash
 cd client
+npm install
 npm run dev
 ```
+
+You may also do `npm run build` and then `npm run start` on `/client` directory to start optimized production build on frontend.
 
 ## Access the application
 
@@ -134,6 +126,6 @@ As a signed in user, you are able to report properties that you beleive are frad
 
 ### Admin user
 
-Admin users are able to set other users as `verified` or `unverified`. Verified users will have green "Verified" badge on the propertie they have posted. To do this, click "Reports" in the navbar on the top. If there are any reports, you will see a table listing the properties and the number of reports against each property. Properties having more reports against them will be at the top. To view and act on the reports, click on "View" on any row and then you are able to see the actual message of the reports and you are able to delete the property in question if you are convinced that the reports are reasonable and legit.
+Admin users are able to set other users as `verified` or `unverified`. Verified users will have green "Verified" badge on the propertie they have posted. To do this, click on "Verify" in the top navigation bar. You will see a list of users and a button to set them as either verified or unverified. Admin roles themselves cannot be modified.
 
-Admin users are able to view and act of the reports filed by users on suspected fradulent or spam properties. 
+Admin users are able to view and act of the reports filed by users on suspected fradulent or spam properties. To do this, click "Reports" in the navbar on the top. If there are any reports, you will see a table listing the properties and the number of reports against each property. Properties having more reports against them will be at the top. To view and act on the reports, click on "View" on any row and then you are able to see the actual message of the reports and you are able to delete the property in question if you are convinced that the reports are reasonable and legit.
