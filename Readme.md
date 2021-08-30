@@ -16,7 +16,7 @@ It is located in `/client` directory.
 
 ## How to run the application?
 
-Because the applciation is composed to two parts i.e. the backend (Loopback) and the frontend (Next.js), we need to run both to be able to use the application. Both of thse need to be running in seperate terminals.
+Because the application is composed to two parts i.e. the backend (Loopback) and the frontend (Next.js), we need to run both to be able to use the application. Both of these need to be running in separate terminals.
 
 Please run the following commands in the given order.
 
@@ -28,7 +28,7 @@ npm install
 npm run start
 ```
 
-Install and run client (in a seperate terminal):
+Install and run client (in a separate terminal):
 
 ```bash
 cd client
@@ -46,9 +46,9 @@ To access the backend i.e. REST API explorer, go to [localhost:3001/explorer](ht
 
 ## Database and data persistence
 
-To allow easir testing and development, the app currently uses an in-memory database instead of persisted on storage databases such as MySQL or PostgreSQL.
+To allow easier testing and development, the app currently uses an in-memory database instead of persisted on storage databases such as MySQL or PostgreSQL.
 
-However, switching to a persited DB is straightforward and just requires configuring it in `/server/src/datasources/db.datasource.ts`
+However, switching to a persisted DB is straightforward and just requires configuring it in `/server/src/datasources/db.datasource.ts`
 
 Currently we didn't connect a PostgreSQL db so that the grader is able to test the application without having to run a database instance.
 
@@ -110,7 +110,7 @@ npm run start ## on /server directory
 
 ### Not signed in
 
-A user who is not signed in to the application can still browse the properties, filter the properties by different criteria such as type of property, whether it is for sale or rent, price/rent and area range. Users are also able to tell if the property is posted by a verified user (a green badge is shown on properties posted by verified users).
+A user who is not signed into the application can still browse the properties, filter the properties by different criteria such as type of property, whether it is for sale or rent, price/rent and area range. Users are also able to tell if the property is posted by a verified user (a green badge is shown on properties posted by verified users).
 
 However, for features such as posting properties, reporting properties, etc., the user need to be logged in. For this, you need to click "Signup" in the upper right corner, or directly navigate to [localhost:3000/signup](http://localhost:3000/signup).
 
@@ -122,10 +122,10 @@ Once signed up, you will have a user account that will have `unverified` role. L
 
 Normal users as well as admins are able to post properties and edit the properties they have posted. To view and edit the properties you have posted, please click on your username in the upper right hand corner.
 
-As a signed in user, you are able to report properties that you beleive are fradulent or spam. To do this, you need to click "View" button on a property card and then on the following page, click on "Report". Remember that you are not able to report properties that you yourself posted, however you are able to edit those properties.
+As a signed in user, you are able to report properties that you believe are fraudulent or spam. To do this, you need to click "View" button on a property card and then on the following page, click on "Report". Remember that you are not able to report properties that you yourself posted, however you are able to edit those properties.
 
 ### Admin user
 
-Admin users are able to set other users as `verified` or `unverified`. Verified users will have green "Verified" badge on the propertie they have posted. To do this, click on "Verify" in the top navigation bar. You will see a list of users and a button to set them as either verified or unverified. Admin roles themselves cannot be modified.
+Admin users are able to set other users as `verified` or `unverified`. Verified users will have green "Verified" badge on the properties they have posted. To do this, click on "Verify" in the top navigation bar. You will see a list of users and a button to set them as either verified or unverified. Admin roles themselves cannot be modified.
 
-Admin users are able to view and act of the reports filed by users on suspected fradulent or spam properties. To do this, click "Reports" in the navbar on the top. If there are any reports, you will see a table listing the properties and the number of reports against each property. Properties having more reports against them will be at the top. To view and act on the reports, click on "View" on any row and then you are able to see the actual message of the reports and you are able to delete the property in question if you are convinced that the reports are reasonable and legit.
+Admin users are able to view and act of the reports filed by users on suspected fraudulent or spam properties. To do this, click "Reports" in the navbar on the top. If there are any reports, you will see a table listing the properties and the number of reports against each property. Properties having more reports against them will be at the top. To view and act on the reports, click on "View" on any row and then you are able to see the actual message of the reports and you are able to delete the property in question if you are convinced that the reports are reasonable and legit.
