@@ -18,7 +18,7 @@ It is located in `/client` directory.
 
 Because the application is composed to two parts i.e. the backend (Loopback) and the frontend (Next.js), we need to run both to be able to use the application. Both of these need to be running in separate terminals.
 
-Please run the following commands in the given order.
+Please clone the repository to your machine and then run the following commands in the given order (in the directory where you cloned the repo).
 
 Install and run server:
 
