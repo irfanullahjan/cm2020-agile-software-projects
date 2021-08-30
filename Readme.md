@@ -66,7 +66,7 @@ The website supports admin roles, and normal user roles (either verified or unve
   ```JS
   {
       email: "admin1@example.com",
-      password: "admin!234"
+      password: "Admin!234"
   }
   ```
 </details>
