@@ -3,7 +3,9 @@ module.exports = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:3001/:path*',
+        destination: `http://${
+          process.env.SERVER_HOST ?? 'localhost'
+        }:3001/:path*`,
       },
     ];
   },
