@@ -9,8 +9,9 @@ import { Select } from 'components/lib/Select';
 export default function Properties() {
   type Property = { [key: string]: string };
   const [loading, setLoading] = useState(false);
+  const defaultFilter = { include: ['user'], order: 'createStamp DESC' };
   const [searchFilter, setSearchFilter] = useState<string>(
-    JSON.stringify({ include: ['user'] }),
+    JSON.stringify(defaultFilter),
   );
   const [propertiesData, setPropertiesData] = useState<Property[]>([]);
   useEffect(() => {
@@ -58,7 +59,6 @@ export default function Properties() {
           lte: +values.maxArea,
         };
       }
-      const defaultFilter = { include: ['user'], order: 'createStamp DESC' };
       if (Object.keys(whereFilter).length > 0) {
         setSearchFilter(
           JSON.stringify({ where: whereFilter, ...defaultFilter }),
