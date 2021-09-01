@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 export function useSession() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const loadSession = async () => {
     const jwt = localStorage.getItem('jwt');
@@ -26,6 +27,7 @@ export function useSession() {
     } else {
       setUser(null);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -35,5 +37,5 @@ export function useSession() {
   const updateSession = () => {
     loadSession();
   };
-  return [user, updateSession];
+  return [user, updateSession, loading];
 }

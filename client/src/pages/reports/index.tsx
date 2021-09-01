@@ -23,17 +23,18 @@ export default function ReportedProperties() {
       />
     );
 
+  if (error)
+    return <Error statusCode={error.status} title="Error fetching data" />;
+
+  if (isValidating) return <Spinner />;
+
   reportedProperties?.sort(
     (a: any, b: any) => b.reports.length - a.reports.length,
   );
 
-  if (error)
-    return <Error statusCode={error.status} title="Error fetching data" />;
-
   return (
     <>
       <h1>Reports</h1>
-      {isValidating && <Spinner />}
       {reportedProperties?.length > 0 ? (
         <Table>
           <thead>

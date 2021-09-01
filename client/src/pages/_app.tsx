@@ -5,11 +5,13 @@ import type { AppProps } from 'next/app';
 import { Layout } from 'components/lib/Layout';
 import { createContext } from 'react';
 import { useSession } from 'utils/useSession';
+import { Spinner } from 'components/lib/Spinner';
 
 export const SessionContext = createContext<any>(null);
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [user, updateSession] = useSession();
+  const [user, updateSession, loading] = useSession();
+  if (loading) return <Spinner />;
   return (
     <SessionContext.Provider value={{ user, updateSession }}>
       <Layout>
