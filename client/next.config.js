@@ -1,11 +1,10 @@
 module.exports = {
   async rewrites() {
+    const backendUrl = process.env.BACKEND_URL ?? 'http://localhost:3001';
     return [
       {
         source: '/api/:path*',
-        destination: `http://${
-          process.env.SERVER_HOST ?? 'localhost'
-        }:3001/:path*`,
+        destination: `${backendUrl}/:path*`,
       },
     ];
   },
