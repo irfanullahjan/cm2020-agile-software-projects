@@ -9,10 +9,11 @@ import Error from 'next/error';
 
 export default function ReportedProperties() {
   const { user } = useContext(SessionContext);
-  const { data: reportedProperties, error } = useSwr(
-    '/api/reported-properties',
-    fetcher,
-  );
+  const {
+    data: reportedProperties,
+    error,
+    isValidating,
+  } = useSwr('/api/reported-properties', fetcher);
 
   if (user?.realm !== 'admin')
     return (
@@ -32,7 +33,7 @@ export default function ReportedProperties() {
   return (
     <>
       <h1>Reports</h1>
-      {!reportedProperties && <Spinner />}
+      {isValidating && <Spinner />}
       {reportedProperties?.length > 0 ? (
         <Table>
           <thead>
