@@ -30,16 +30,11 @@ export function PropertiesGrid(props: Props) {
               alt="Card image cap"
             />
             <CardBody>
-              <CardTitle tag="h5">
-                {property.title}{' '}
-                {property.user.realm === 'verified' && (
-                  <Badge color="success">Verified</Badge>
-                )}
-                {property.user.realm === 'admin' && (
-                  <Badge color="success">Admin</Badge>
-                )}
-              </CardTitle>
+              <CardTitle tag="h5">{property.title}</CardTitle>
               <CardSubtitle tag="h6" className="mb-2 text-muted">
+                <span className="text-capitalize">{property.type}</span>
+              </CardSubtitle>
+              <CardText>
                 {property.offer === 'sale'
                   ? `Sale price: $${property.price
                       .toString()
@@ -47,8 +42,9 @@ export function PropertiesGrid(props: Props) {
                   : `Annual rent: $${property.price
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-              </CardSubtitle>
-              <CardText>{`Type: ${property.type}`}</CardText>
+                <br />
+                Area: {property.area}
+              </CardText>
               <Link href={`/${property.id}`} passHref>
                 <a className="btn btn-primary mr-2">View</a>
               </Link>

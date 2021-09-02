@@ -28,10 +28,11 @@ export default function ViewProperty() {
   if (error)
     return <Error statusCode={error.status} title={error.statusText} />;
 
+  if (isValidating) return <Spinner />;
+
   return (
     <>
       <h1>View Property</h1>
-      {isValidating && <Spinner />}
       {property && (
         <Table className="table-secondary">
           <thead>
@@ -89,6 +90,9 @@ export default function ViewProperty() {
                 {property.user.username}{' '}
                 {property.user.realm === 'verified' && (
                   <Badge color="success">Verified</Badge>
+                )}
+                {property.user.realm === 'admin' && (
+                  <Badge color="info">Admin</Badge>
                 )}
               </td>
             </tr>
