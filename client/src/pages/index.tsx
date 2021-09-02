@@ -5,24 +5,20 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { Col, Row } from 'reactstrap';
 import { InputText } from 'components/lib/InputText';
 import { Select } from 'components/lib/Select';
+import { fetcher } from 'utils/fetcher';
+import useSWR from 'swr';
+import Error from 'next/error';
 
 export default function Properties() {
-  type Property = { [key: string]: string };
-  const [loading, setLoading] = useState(false);
   const defaultFilter = { include: ['user'], order: 'createStamp DESC' };
-  const [searchFilter, setSearchFilter] = useState<string>(
-    JSON.stringify(defaultFilter),
-  );
-  const [propertiesData, setPropertiesData] = useState<Property[]>([]);
-  useEffect(() => {
-    setLoading(true);
-    fetch(`/api/properties${searchFilter ? `?filter=${searchFilter}` : ''}`)
-      .then(res => res.json())
-      .then(json => {
-        setPropertiesData(json);
-        setLoading(false);
-      });
-  }, [searchFilter]);
+  const [searchFilter, setSearchFilter] = useState<object>(defaultFilter);
+
+  const {
+    data: propertiesData,
+    error,
+    isValidating,
+  } = useSWR(`/api/properties?filter=${JSON.stringify(searchFilter)}`, fetcher);
+
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values: any) => {
@@ -60,11 +56,9 @@ export default function Properties() {
         };
       }
       if (Object.keys(whereFilter).length > 0) {
-        setSearchFilter(
-          JSON.stringify({ where: whereFilter, ...defaultFilter }),
-        );
+        setSearchFilter({ where: whereFilter, ...defaultFilter });
       } else {
-        setSearchFilter(JSON.stringify({ ...defaultFilter }));
+        setSearchFilter({ ...defaultFilter });
       }
     },
   });
@@ -72,55 +66,60 @@ export default function Properties() {
     formik.submitForm();
   }, [formik.values]);
 
+  if (error)
+    return <Error statusCode={error.status} title={error.statusText} />;
+
   return (
     <>
       <h1>Properties</h1>
+      {isValidating && <Spinner />}
       <FormikProvider value={formik}>
         <Form>
-          <Row className="p-2 bg-dark text-light rounded">
-            <Col md={4} lg={2}>
-              <Select
-                label="Type"
-                name="type"
-                items={{
-                  house: 'House',
-                  apartment: 'Apartment',
-                  land: 'Land',
-                  commercial: 'Commercial',
-                }}
-                nullable={true}
-              />
-            </Col>
-            <Col md={4} lg={2}>
-              <Select
-                label="Offer"
-                name="offer"
-                items={{ sale: 'For sale', rent: 'For rent' }}
-                nullable={true}
-              />
-            </Col>
-            <Col md={4} lg={2}>
-              <InputText label="Min Amount" name="minAmount" type="number" />
-            </Col>
-            <Col md={4} lg={2}>
-              <InputText label="Max Amount" name="maxAmount" type="number" />
-            </Col>
-            <Col md={4} lg={2}>
-              <InputText label="Min Area" name="minArea" type="number" />
-            </Col>
-            <Col md={4} lg={2}>
-              <InputText label="Max Area" name="maxArea" type="number" />
-            </Col>
-          </Row>
+          <Col>
+            <Row className="p-2 bg-dark text-light rounded">
+              <Col md={4} lg={2}>
+                <Select
+                  label="Type"
+                  name="type"
+                  items={{
+                    house: 'House',
+                    apartment: 'Apartment',
+                    land: 'Land',
+                    commercial: 'Commercial',
+                  }}
+                  nullable={true}
+                />
+              </Col>
+              <Col md={4} lg={2}>
+                <Select
+                  label="Offer"
+                  name="offer"
+                  items={{ sale: 'For sale', rent: 'For rent' }}
+                  nullable={true}
+                />
+              </Col>
+              <Col md={4} lg={2}>
+                <InputText label="Min Amount" name="minAmount" type="number" />
+              </Col>
+              <Col md={4} lg={2}>
+                <InputText label="Max Amount" name="maxAmount" type="number" />
+              </Col>
+              <Col md={4} lg={2}>
+                <InputText label="Min Area" name="minArea" type="number" />
+              </Col>
+              <Col md={4} lg={2}>
+                <InputText label="Max Area" name="maxArea" type="number" />
+              </Col>
+            </Row>
+          </Col>
         </Form>
       </FormikProvider>
       {/* <pre>{JSON.stringify(formik.values, null, 2)}</pre> */}
-      {propertiesData.length > 0 ? (
+      {propertiesData?.length > 0 ? (
         <PropertiesGrid properties={propertiesData} />
       ) : (
         <p>No properties.</p>
       )}
-      {loading && <Spinner />}
     </>
   );
 }

@@ -16,7 +16,7 @@ export function Select(props: Props) {
     <FormGroup>
       <Label for="type">{label}</Label>
       <Field as={Input} type="select" name={name}>
-        {nullable && <option value=""></option>}
+        {nullable && <option value="">All</option>}
         {Object.keys(items).map((item, i) => (
           <option key={i} value={item}>
             {items[item]}
