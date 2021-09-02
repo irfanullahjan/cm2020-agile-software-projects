@@ -1,10 +1,10 @@
 import { SessionContext } from '../../pages/_app';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Table } from 'reactstrap';
 import { Spinner } from 'components/lib/Spinner';
 import Link from 'next/link';
 import useSwr from 'swr';
-import { fetcher } from 'utils/methods';
+import { fetcher } from 'utils/fetcher';
 import Error from 'next/error';
 
 export default function ReportedProperties() {
@@ -24,9 +24,7 @@ export default function ReportedProperties() {
     );
 
   if (error)
-    return <Error statusCode={error.status} title="Error fetching data" />;
-
-  if (isValidating) return <Spinner />;
+    return <Error statusCode={error.status} title={error.statusText} />;
 
   reportedProperties?.sort(
     (a: any, b: any) => b.reports.length - a.reports.length,
@@ -35,6 +33,7 @@ export default function ReportedProperties() {
   return (
     <>
       <h1>Reports</h1>
+      {isValidating && <Spinner />}
       {reportedProperties?.length > 0 ? (
         <Table>
           <thead>
