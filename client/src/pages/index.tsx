@@ -114,11 +114,10 @@ export default function Properties() {
           </Col>
         </Form>
       </FormikProvider>
-      {/* <pre>{JSON.stringify(formik.values, null, 2)}</pre> */}
       {propertiesData?.length > 0 ? (
         <PropertiesGrid properties={propertiesData} />
       ) : (
-        <p>No properties.</p>
+        <p className="py-3">No properties.</p>
       )}
     </>
   );

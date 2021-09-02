@@ -2,9 +2,13 @@ import { Spinner } from 'components/lib/Spinner';
 import { useRouter } from 'next/dist/client/router';
 import { SessionContext } from '../_app';
 import { useContext, useEffect, useState } from 'react';
-import { Table } from 'reactstrap';
+import { Badge, Table } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
 import Link from 'next/link';
+import useSWR from 'swr';
+import { fetcher } from 'utils/fetcher';
+import Error from 'next/error';
+import { format } from 'date-fns';
 
 export default function ViewProperty() {
   const { user } = useContext(SessionContext);
@@ -12,36 +16,92 @@ export default function ViewProperty() {
   const router = useRouter();
   const { id } = router.query;
 
-  type Property = { [key: string]: string };
-  const [property, setProperty] = useState<Property | undefined>(undefined);
-  useEffect(() => {
-    if (+getAsString(id) > 0) {
-      fetch(`/api/properties/${id}`)
-        .then(res => res.json())
-        .then(json => setProperty(json));
-    }
-  }, [id]);
-  if (!property) return <Spinner />;
+  const {
+    data: property,
+    error,
+    isValidating,
+  } = useSWR(
+    id ? `/api/properties/${getAsString(id)}?filter[include][]=user` : null,
+    fetcher,
+  );
+
+  if (error)
+    return <Error statusCode={error.status} title={error.statusText} />;
+
   return (
     <>
       <h1>View Property</h1>
-      <Table>
-        <tbody>
-          {Object.keys(property).map((key, i) => (
-            <tr key={i}>
-              <td>{key}</td>
-              <td>{property[key]}</td>
+      {isValidating && <Spinner />}
+      {property && (
+        <Table className="table-secondary">
+          <thead>
+            <tr>
+              <th scope="col" className="w-25">
+                Item
+              </th>
+              <th scope="col">Detail</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Title</th>
+              <td>{property.title}</td>
+            </tr>
+            <tr>
+              <th scope="row">Type</th>
+              <td className="text-capitalize">{property.type}</td>
+            </tr>
+            <tr>
+              <th scope="row">Offer</th>
+              <td>{`For ${property.offer}`}</td>
+            </tr>
+            <tr>
+              <th scope="row">Price</th>
+              <td>
+                {`$${property.price
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Area</th>
+              <td>{property.area} square meters</td>
+            </tr>
+            <tr>
+              <th scope="row">Posted on</th>
+              <td>
+                {format(Date.parse(property.createStamp), 'yyyy-MM-dd hh:mm')}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Updated on</th>
+              <td>
+                {format(Date.parse(property.updateStamp), 'yyyy-MM-dd hh:mm')}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Description</th>
+              <td>{property.description}</td>
+            </tr>
+            <tr>
+              <th scope="row">Posted by</th>
+              <td>
+                {property.user.username}{' '}
+                {property.user.realm === 'verified' && (
+                  <Badge color="success">Verified</Badge>
+                )}
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      )}
       {user &&
-        (user.id === property.userId ? (
+        (user.id === property?.userId ? (
           <Link href={`/${property.id}/edit`} passHref>
             <a className="btn btn-secondary">Edit</a>
           </Link>
         ) : (
-          <Link href={`/${property.id}/report`} passHref>
+          <Link href={`/${property?.id}/report`} passHref>
             <a className="btn btn-secondary">Report</a>
           </Link>
         ))}
