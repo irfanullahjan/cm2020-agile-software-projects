@@ -9,6 +9,7 @@ export function Spinner() {
         left: '50%',
         width: '3rem',
         height: '3rem',
+        zIndex: 2000,
       }}
     />
   );
