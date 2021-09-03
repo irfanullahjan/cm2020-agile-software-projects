@@ -21,6 +21,17 @@ export function PropertyForm(props: Props) {
   const { user } = useContext(SessionContext);
   const { propertyId } = props;
 
+  const emptyForm = {
+    title: '',
+    description: '',
+    area: '',
+    type: 'land',
+    offer: 'sale',
+    price: '',
+    dateAvailable: '',
+    installments: false,
+  };
+
   const {
     data: propertyData,
     error,
@@ -42,6 +53,7 @@ export function PropertyForm(props: Props) {
   const formikBag = useFormik({
     enableReinitialize: true,
     initialValues: {
+      ...emptyForm,
       ...propertyData,
       dateAvailable:
         propertyData?.dateAvailable.length > 0
