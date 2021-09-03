@@ -25,10 +25,12 @@ export function Layout(props: Props) {
           </Row>
         </Container>
       </div>
-      <div className="bg-dark" style={{ flexShrink: 0 }}>
+      <div className="bg-dark text-secondary py-2" style={{ flexShrink: 0 }}>
         <Container>
           <Row>
-            <Col>Footer</Col>
+            <Col>
+              <span>&copy; EasyHomes 2021</span>
+            </Col>
           </Row>
         </Container>
       </div>

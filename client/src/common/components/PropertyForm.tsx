@@ -7,6 +7,7 @@ import { Select } from 'components/lib/Select';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { SessionContext } from '../../pages/_app';
+import { Spinner } from './lib/Spinner';
 
 type Props = {
   propertyId?: number;
@@ -16,6 +17,7 @@ export function PropertyForm(props: Props) {
   const router = useRouter();
   const { user } = useContext(SessionContext);
 
+  const [loading, setLoading] = useState(false);
   const [propertyData, setPropertyData] = useState({
     title: '',
     description: '',
@@ -30,11 +32,15 @@ export function PropertyForm(props: Props) {
   const { propertyId } = props;
 
   useEffect(() => {
-    propertyId && propertyId > 0
-      ? fetch(`/api/properties/${propertyId}`)
-          .then(res => res.json())
-          .then(jsonData => setPropertyData(jsonData))
-      : null;
+    if (propertyId && propertyId > 0) {
+      setLoading(true);
+      fetch(`/api/properties/${propertyId}`)
+        .then(res => {
+          setLoading(false);
+          return res.json();
+        })
+        .then(jsonData => setPropertyData(jsonData));
+    }
   }, [propertyId]);
 
   const validationSchema = Yup.object().shape({
@@ -75,6 +81,7 @@ export function PropertyForm(props: Props) {
   });
   return (
     <div>
+      {loading && <Spinner />}
       <FormikProvider value={formikBag}>
         <Form>
           <InputText label="Title" name="title" />

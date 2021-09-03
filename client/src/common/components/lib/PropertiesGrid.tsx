@@ -43,7 +43,7 @@ export function PropertiesGrid(props: Props) {
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
                 <br />
-                Area: {property.area}
+                Area: {property.area} m<sup>2</sup>
               </CardText>
               <Link href={`/${property.id}`} passHref>
                 <a className="btn btn-primary mr-2">View</a>

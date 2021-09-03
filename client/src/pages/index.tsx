@@ -99,16 +99,36 @@ export default function Properties() {
                 />
               </Col>
               <Col md={4} lg={2}>
-                <InputText label="Min Amount" name="minAmount" type="number" />
+                <InputText
+                  label="Min Amount"
+                  name="minAmount"
+                  type="number"
+                  min={1}
+                />
               </Col>
               <Col md={4} lg={2}>
-                <InputText label="Max Amount" name="maxAmount" type="number" />
+                <InputText
+                  label="Max Amount"
+                  name="maxAmount"
+                  type="number"
+                  min={1}
+                />
               </Col>
               <Col md={4} lg={2}>
-                <InputText label="Min Area" name="minArea" type="number" />
+                <InputText
+                  label="Min Area"
+                  name="minArea"
+                  type="number"
+                  min={1}
+                />
               </Col>
               <Col md={4} lg={2}>
-                <InputText label="Max Area" name="maxArea" type="number" />
+                <InputText
+                  label="Max Area"
+                  name="maxArea"
+                  type="number"
+                  min={1}
+                />
               </Col>
             </Row>
           </Col>
