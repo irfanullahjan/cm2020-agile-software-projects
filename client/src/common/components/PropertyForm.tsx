@@ -4,10 +4,13 @@ import * as Yup from 'yup';
 import { InputText } from 'components/lib/InputText';
 import { RadioGroup } from 'components/lib/RadioGroup';
 import { Select } from 'components/lib/Select';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { SessionContext } from '../../pages/_app';
 import { Spinner } from './lib/Spinner';
+import useSWR from 'swr';
+import { fetcher } from 'utils/fetcher';
+import Error from 'next/error';
 
 type Props = {
   propertyId?: number;
@@ -16,32 +19,13 @@ type Props = {
 export function PropertyForm(props: Props) {
   const router = useRouter();
   const { user } = useContext(SessionContext);
-
-  const [loading, setLoading] = useState(false);
-  const [propertyData, setPropertyData] = useState({
-    title: '',
-    description: '',
-    area: '',
-    type: 'land',
-    offer: 'sale',
-    price: '',
-    dateAvailable: '',
-    installments: false,
-  });
-
   const { propertyId } = props;
 
-  useEffect(() => {
-    if (propertyId && propertyId > 0) {
-      setLoading(true);
-      fetch(`/api/properties/${propertyId}`)
-        .then(res => {
-          setLoading(false);
-          return res.json();
-        })
-        .then(jsonData => setPropertyData(jsonData));
-    }
-  }, [propertyId]);
+  const {
+    data: propertyData,
+    error,
+    isValidating,
+  } = useSWR(propertyId ? `/api/properties/${propertyId}` : null, fetcher);
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required('Required'),
@@ -60,7 +44,7 @@ export function PropertyForm(props: Props) {
     initialValues: {
       ...propertyData,
       dateAvailable:
-        propertyData.dateAvailable.length > 0
+        propertyData?.dateAvailable.length > 0
           ? new Date(propertyData.dateAvailable).toISOString().slice(0, 10)
           : '',
     },
@@ -79,9 +63,13 @@ export function PropertyForm(props: Props) {
       }).then(() => router.push('/')),
     validationSchema,
   });
+
+  if (error)
+    return <Error statusCode={error.status} title={error.statusText} />;
+
   return (
     <div>
-      {loading && <Spinner />}
+      {isValidating && <Spinner />}
       <FormikProvider value={formikBag}>
         <Form>
           <InputText label="Title" name="title" />
