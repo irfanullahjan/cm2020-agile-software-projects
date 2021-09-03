@@ -76,6 +76,14 @@ export function PropertyForm(props: Props) {
     validationSchema,
   });
 
+  if (propertyData && user.id !== propertyData?.userId)
+    return (
+      <Error
+        statusCode={401}
+        title="You are not authorized to edit this property."
+      />
+    );
+
   if (error)
     return <Error statusCode={error.status} title={error.statusText} />;
 
