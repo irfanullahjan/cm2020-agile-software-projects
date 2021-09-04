@@ -1,6 +1,5 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Entity, model, property} from '@loopback/repository';
 import { AuditMixin } from './mixins/audit.mixin';
-import {Property} from './property.model';
 
 @model()
 export class Report extends AuditMixin(Entity) {

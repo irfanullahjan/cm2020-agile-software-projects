@@ -51,7 +51,7 @@ export class SeedObserver implements LifeCycleObserver {
         .create({password});
 
       for (let i = 0; i < 4; ++i) {
-        this.propertyRepository.create({
+        await this.propertyRepository.create({
           title:
             properties.titles[
               Math.floor(Math.random() * properties.titles.length)

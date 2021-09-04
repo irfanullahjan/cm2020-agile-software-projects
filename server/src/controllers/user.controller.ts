@@ -25,7 +25,6 @@ import {
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import _ from 'lodash';
-import {Property} from '../models';
 import {PropertyRepository} from '../repositories';
 
 @model()
