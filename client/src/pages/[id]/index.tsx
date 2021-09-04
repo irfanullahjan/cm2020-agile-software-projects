@@ -1,7 +1,7 @@
 import { Spinner } from 'components/lib/Spinner';
 import { useRouter } from 'next/dist/client/router';
 import { SessionContext } from '../_app';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Badge, Table } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
 import Link from 'next/link';
@@ -87,7 +87,9 @@ export default function ViewProperty() {
             <tr>
               <th scope="row">Posted by</th>
               <td>
-                {property.user.username}{' '}
+                <Link href={`/user/${property.user.id}`}>
+                  {property.user.username}
+                </Link>{' '}
                 {property.user.realm === 'verified' && (
                   <Badge color="success">Verified</Badge>
                 )}

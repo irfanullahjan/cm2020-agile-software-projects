@@ -49,6 +49,11 @@ export const NavbarTop = () => {
                     <NavLink>New</NavLink>
                   </Link>
                 </NavItem>
+                <NavItem>
+                  <Link href={`/user/${user.id}`} passHref>
+                    <NavLink>My properties</NavLink>
+                  </Link>
+                </NavItem>
                 {user?.realm === 'admin' && (
                   <>
                     <NavItem>
