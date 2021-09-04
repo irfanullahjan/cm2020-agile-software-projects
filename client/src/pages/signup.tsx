@@ -57,7 +57,7 @@ export default function Login() {
   });
   return (
     <>
-      <h1>Sign up</h1>
+      <h1>Signup</h1>
       <p>Please enter details to sign up.</p>
       <FormikProvider value={formik}>
         <Form>
