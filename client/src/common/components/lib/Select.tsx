@@ -1,28 +1,29 @@
-import { Field } from 'formik';
-import { FormGroup, Input, Label } from 'reactstrap';
+import { useField } from 'formik';
+import { FormGroup, Input, InputProps, Label } from 'reactstrap';
 
-type Props = {
-  name: string;
+interface Props extends InputProps {
   label: string;
+  name: string;
   items: {
     [key: string]: string;
   };
   nullable?: boolean;
-};
+}
 
 export function Select(props: Props) {
-  const { name, label, items, nullable } = props;
+  const { name, label, items, nullable, ...otherProps } = props;
+  const [{ value, ...field }] = useField(name);
   return (
     <FormGroup>
       <Label for="type">{label}</Label>
-      <Field as={Input} type="select" name={name}>
+      <Input type="select" value={value ?? ''} {...field} {...otherProps}>
         {nullable && <option value="">All</option>}
         {Object.keys(items).map((item, i) => (
           <option key={i} value={item}>
             {items[item]}
           </option>
         ))}
-      </Field>
+      </Input>
     </FormGroup>
   );
 }
