@@ -34,7 +34,10 @@ export default function UserByIdProperties() {
       {properties && (
         <>
           {properties.length > 0 ? (
-            <PropertiesGrid properties={properties} editable={id === user.id} />
+            <PropertiesGrid
+              properties={properties}
+              editable={id === user?.id}
+            />
           ) : (
             <p>This user has no properties.</p>
           )}
