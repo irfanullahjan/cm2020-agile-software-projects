@@ -1,27 +1,27 @@
-import { ErrorMessage, Field, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import { FormFeedback, FormGroup, Input, Label, InputProps } from 'reactstrap';
 
 interface Props extends InputProps {
   label: string;
+  name: string;
 }
 
 export function InputText(props: Props) {
-  const { label, name, type, ...rest } = props;
-  const { touched, errors } = useFormikContext();
+  const { label, name, type, ...otherProps } = props;
+  const [{ value, ...field }, meta] = useField(name);
 
-  // @ts-ignore
-  const invalid = touched && touched[name] && errors && errors[name];
+  const invalid = meta.touched && meta.error;
   return (
     <FormGroup>
       <Label>{label}</Label>
-      <Field
-        as={Input}
+      <Input
         type={type ?? 'text'}
-        name={name}
-        invalid={invalid ? true : false}
-        {...rest}
+        invalid={!!invalid}
+        value={value ?? ''}
+        {...field}
+        {...otherProps}
       />
-      {name && <ErrorMessage name={name} component={FormFeedback} />}
+      {invalid && <FormFeedback>{meta.error}</FormFeedback>}
     </FormGroup>
   );
 }

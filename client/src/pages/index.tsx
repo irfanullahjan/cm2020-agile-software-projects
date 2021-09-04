@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Spinner } from 'components/lib/Spinner';
 import { PropertiesGrid } from 'components/lib/PropertiesGrid';
 import { Form, FormikProvider, useFormik } from 'formik';
-import { Col, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 import { InputText } from 'components/lib/InputText';
 import { Select } from 'components/lib/Select';
 import { fetcher } from 'utils/fetcher';
@@ -20,7 +20,7 @@ export default function Properties() {
   } = useSWR(`/api/properties?filter=${JSON.stringify(searchFilter)}`, fetcher);
 
   const formik = useFormik({
-    initialValues: {},
+    initialValues: {} as any,
     onSubmit: (values: any) => {
       const whereFilter: any = {};
       if (values.offer) {
@@ -71,7 +71,12 @@ export default function Properties() {
 
   return (
     <>
-      <h1>Properties</h1>
+      <div className="d-flex justify-content-between">
+        <h1>Properties</h1>
+        <Button className="my-2" onClick={() => formik.resetForm()}>
+          Clear filters
+        </Button>
+      </div>
       {isValidating && <Spinner />}
       <FormikProvider value={formik}>
         <Form>
