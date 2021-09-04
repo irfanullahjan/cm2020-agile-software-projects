@@ -10,7 +10,6 @@ export function Spinner(props: Props) {
     <div
       style={{
         position: position === 'fixed' ? 'fixed' : 'relative',
-        backgroundColor: 'white',
         top: 0,
         left: 0,
         width: '100%',
@@ -19,7 +18,6 @@ export function Spinner(props: Props) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        opacity: '25%',
       }}>
       <RsSpinner style={{ width: '3rem', height: '3rem' }} />
     </div>
