@@ -8,7 +8,7 @@ export default function AddProperty() {
 
   if (!user)
     return (
-      <Error statusCode={401} title="Please login to post a new property." />
+      <Error statusCode={401} title="Please login to post a new property" />
     );
 
   return (

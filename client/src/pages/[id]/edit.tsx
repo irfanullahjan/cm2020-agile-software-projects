@@ -12,7 +12,7 @@ export default function EditProperty() {
   const { id } = router.query;
 
   if (!user)
-    return <Error statusCode={401} title="Please login to edit properties." />;
+    return <Error statusCode={401} title="Please login to edit the property" />;
 
   if (!id) return <Spinner />;
   return (

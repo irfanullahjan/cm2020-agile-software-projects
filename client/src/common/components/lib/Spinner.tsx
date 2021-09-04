@@ -1,16 +1,27 @@
 import { Spinner as RsSpinner } from 'reactstrap';
 
-export function Spinner() {
+type Props = {
+  position?: string;
+};
+
+export function Spinner(props: Props) {
+  const { position = 'fixed' } = props;
   return (
-    <RsSpinner
+    <div
       style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        width: '3rem',
-        height: '3rem',
+        position: position === 'fixed' ? 'fixed' : 'relative',
+        backgroundColor: 'white',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100vh',
         zIndex: 2000,
-      }}
-    />
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        opacity: '25%',
+      }}>
+      <RsSpinner style={{ width: '3rem', height: '3rem' }} />
+    </div>
   );
 }
