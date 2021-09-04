@@ -1,70 +1,80 @@
 import { Spinner } from 'components/lib/Spinner';
-import { useContext, useEffect, useState } from 'react';
-import { Button, Table } from 'reactstrap';
+import { useContext, useState } from 'react';
+import { Badge, Button, Table } from 'reactstrap';
 import { SessionContext } from './_app';
+import Error from 'next/dist/pages/_error';
+import useSWR, { mutate } from 'swr';
+import { fetcher } from 'utils/fetcher';
 
 export default function VerifyUsers() {
   const { user } = useContext(SessionContext);
-  const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState<any[]>([]);
 
-  const fetchUsers = () => {
-    setLoading(true);
-    fetch('/api/user/all')
-      .then(res => res.json())
-      .then(json => {
-        setLoading(false);
-        setUsers(json.filter((user: any) => user.realm !== 'admin'));
-      });
-  };
+  const { data, error, isValidating } = useSWR('/api/user/all', fetcher);
 
-  useEffect(fetchUsers, []);
+  const users = data?.filter((user: any) => user.realm !== 'admin');
 
   const setUserRealm = (userId: string, realm: string) => {
-    fetch(`/api/user/realm/${userId}/${realm}`).then(fetchUsers);
+    fetch(`/api/user/realm/${userId}/${realm}`).then(() =>
+      mutate('/api/user/all'),
+    );
   };
 
-  if (user?.realm !== 'admin') return <p>Unauthorized!!</p>;
+  if (user?.realm !== 'admin')
+    return (
+      <Error
+        statusCode={401}
+        title="Please log in as an admin to access this page"
+      />
+    );
+
+  if (error)
+    return <Error statusCode={error.status} title={error.statusText} />;
+
   return (
     <>
       <h1>Verify users</h1>
-      <Table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Realm</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user: any, i: number) => (
-            <tr key={i}>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{user.realm}</td>
-              <td>
-                {user.realm &&
-                  user.realm !== 'admin' &&
-                  (user.realm === 'unverified' ? (
-                    <Button
-                      color="success"
-                      onClick={() => setUserRealm(user.id, 'verified')}>
-                      Set Verified
-                    </Button>
-                  ) : (
-                    <Button
-                      color="danger"
-                      onClick={() => setUserRealm(user.id, 'unverified')}>
-                      Set Unverified
-                    </Button>
-                  ))}
-              </td>
+      {users?.length > 0 && (
+        <Table>
+          <thead>
+            <tr>
+              <th className="w-25">Username</th>
+              <th className="w-25">Email</th>
+              <th className="w-25">Realm</th>
+              <th className="w-25"></th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-      {loading && <Spinner />}
+          </thead>
+          <tbody>
+            {users.map((user: any, i: number) => (
+              <tr key={i}>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>
+                  {user.realm === 'verified' ? (
+                    <Badge color="success">Verified</Badge>
+                  ) : (
+                    <Badge color="danger">Unverified</Badge>
+                  )}
+                </td>
+                <td>
+                  {user.realm &&
+                    user.realm !== 'admin' &&
+                    (user.realm === 'unverified' ? (
+                      <Button onClick={() => setUserRealm(user.id, 'verified')}>
+                        Set Verified
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => setUserRealm(user.id, 'unverified')}>
+                        Set Unverified
+                      </Button>
+                    ))}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+      {isValidating && <Spinner />}
     </>
   );
 }

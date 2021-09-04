@@ -28,89 +28,90 @@ export default function ViewProperty() {
   if (error)
     return <Error statusCode={error.status} title={error.statusText} />;
 
-  if (isValidating) return <Spinner />;
-
   return (
     <>
       <h1>View Property</h1>
+      {isValidating && <Spinner />}
       {property && (
-        <Table className="table-secondary">
-          <thead>
-            <tr>
-              <th scope="col" className="w-25">
-                Item
-              </th>
-              <th scope="col">Detail</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Title</th>
-              <td>{property.title}</td>
-            </tr>
-            <tr>
-              <th scope="row">Type</th>
-              <td className="text-capitalize">{property.type}</td>
-            </tr>
-            <tr>
-              <th scope="row">Offer</th>
-              <td>{`For ${property.offer}`}</td>
-            </tr>
-            <tr>
-              <th scope="row">Price</th>
-              <td>
-                {`$${property.price
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Area</th>
-              <td>{property.area} square meters</td>
-            </tr>
-            <tr>
-              <th scope="row">Posted on</th>
-              <td>
-                {format(Date.parse(property.createStamp), 'yyyy-MM-dd hh:mm')}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Updated on</th>
-              <td>
-                {format(Date.parse(property.updateStamp), 'yyyy-MM-dd hh:mm')}
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Description</th>
-              <td>{property.description}</td>
-            </tr>
-            <tr>
-              <th scope="row">Posted by</th>
-              <td>
-                <Link href={`/user/${property.user.id}`}>
-                  {property.user.username}
-                </Link>{' '}
-                {property.user.realm === 'verified' && (
-                  <Badge color="success">Verified</Badge>
-                )}
-                {property.user.realm === 'admin' && (
-                  <Badge color="info">Admin</Badge>
-                )}
-              </td>
-            </tr>
-          </tbody>
-        </Table>
+        <>
+          <Table className="table-secondary">
+            <thead>
+              <tr>
+                <th scope="col" className="w-25">
+                  Item
+                </th>
+                <th scope="col">Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Title</th>
+                <td>{property.title}</td>
+              </tr>
+              <tr>
+                <th scope="row">Type</th>
+                <td className="text-capitalize">{property.type}</td>
+              </tr>
+              <tr>
+                <th scope="row">Offer</th>
+                <td>{`For ${property.offer}`}</td>
+              </tr>
+              <tr>
+                <th scope="row">Price</th>
+                <td>
+                  {`$${property.price
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Area</th>
+                <td>{property.area} square meters</td>
+              </tr>
+              <tr>
+                <th scope="row">Posted on</th>
+                <td>
+                  {format(Date.parse(property.createStamp), 'yyyy-MM-dd hh:mm')}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Updated on</th>
+                <td>
+                  {format(Date.parse(property.updateStamp), 'yyyy-MM-dd hh:mm')}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Description</th>
+                <td>{property.description}</td>
+              </tr>
+              <tr>
+                <th scope="row">Posted by</th>
+                <td>
+                  <Link href={`/user/${property.user.id}`}>
+                    {property.user.username}
+                  </Link>{' '}
+                  {property.user.realm === 'verified' && (
+                    <Badge color="success">Verified</Badge>
+                  )}
+                  {property.user.realm === 'admin' && (
+                    <Badge color="info">Admin</Badge>
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+          {user &&
+            (user.id === property?.userId ? (
+              <Link href={`/${property.id}/edit`} passHref>
+                <a className="btn btn-secondary">Edit</a>
+              </Link>
+            ) : (
+              <Link href={`/${property?.id}/report`} passHref>
+                <a className="btn btn-secondary">Report</a>
+              </Link>
+            ))}
+        </>
       )}
-      {user &&
-        (user.id === property?.userId ? (
-          <Link href={`/${property.id}/edit`} passHref>
-            <a className="btn btn-secondary">Edit</a>
-          </Link>
-        ) : (
-          <Link href={`/${property?.id}/report`} passHref>
-            <a className="btn btn-secondary">Report</a>
-          </Link>
-        ))}
     </>
   );
 }
