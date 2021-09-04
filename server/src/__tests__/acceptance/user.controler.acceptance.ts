@@ -15,12 +15,12 @@ describe('UserController', () => {
     await app.stop();
   });
 
-  it('3 test users created on start up', async () => {
+  it('3 test users available on start up', async () => {
     const res = await client.get('/user/all').expect(200);
     expect(res.body).to.be.an.Array().to.have.lengthOf(3);
   });
 
-  it('admin user created', async () => {
+  it('admin user available on start up', async () => {
     const userRepository = await app.getRepository(UserRepository);
     const admin = await userRepository.findOne({
       where: {email: 'admin1@example.com'},

@@ -15,7 +15,12 @@ export default function Login() {
     password?: string;
     verifyPassword?: string;
   }>({
-    initialValues: {},
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+      verifyPassword: '',
+    },
     onSubmit: async values => {
       const formData = {
         ...values,
