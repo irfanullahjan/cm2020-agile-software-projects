@@ -1,5 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
-import { AuditMixin } from './mixins/audit.mixin';
+import {AuditMixin} from './mixins/audit.mixin';
 
 @model()
 export class Image extends AuditMixin(Entity) {

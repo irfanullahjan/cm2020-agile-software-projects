@@ -8,9 +8,7 @@ export class AddressRepository extends DefaultCrudRepository<
   typeof Address.prototype.id,
   AddressRelations
 > {
-  constructor(
-    @inject('datasources.db') dataSource: DbDataSource,
-  ) {
+  constructor(@inject('datasources.db') dataSource: DbDataSource) {
     super(Address, dataSource);
   }
 }

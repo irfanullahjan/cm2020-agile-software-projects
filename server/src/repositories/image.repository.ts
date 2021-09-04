@@ -8,9 +8,7 @@ export class ImageRepository extends DefaultCrudRepository<
   typeof Image.prototype.id,
   ImageRelations
 > {
-  constructor(
-    @inject('datasources.db') dataSource: DbDataSource,
-  ) {
+  constructor(@inject('datasources.db') dataSource: DbDataSource) {
     super(Image, dataSource);
   }
 }

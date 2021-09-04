@@ -33,10 +33,7 @@ export class PropertyRepository extends DefaultCrudRepository<
     typeof Property.prototype.id
   >;
 
-  public readonly user: BelongsToAccessor<
-    User,
-    typeof Property.prototype.id
-  >;
+  public readonly user: BelongsToAccessor<User, typeof Property.prototype.id>;
 
   constructor(
     @inject('datasources.db') dataSource: DbDataSource,
@@ -65,10 +62,7 @@ export class PropertyRepository extends DefaultCrudRepository<
       reportRepositoryGetter,
     );
     this.registerInclusionResolver('reports', this.reports.inclusionResolver);
-    this.user = this.createBelongsToAccessorFor(
-      'user',
-      userRepositoryGetter,
-    );
+    this.user = this.createBelongsToAccessorFor('user', userRepositoryGetter);
     this.registerInclusionResolver('user', this.user.inclusionResolver);
   }
 }

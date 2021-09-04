@@ -1,4 +1,4 @@
-import { Offer, Type } from "../models";
+import {Offer, Type} from '../models';
 
 export const properties = {
   titles: ['Downtown', 'Urgent!', 'Best offer'],

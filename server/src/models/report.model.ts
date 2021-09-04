@@ -1,5 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
-import { AuditMixin } from './mixins/audit.mixin';
+import {AuditMixin} from './mixins/audit.mixin';
 
 @model()
 export class Report extends AuditMixin(Entity) {
@@ -23,9 +23,9 @@ export class Report extends AuditMixin(Entity) {
 
   @property({
     type: 'string',
-    required: true
+    required: true,
   })
-  userId: string
+  userId: string;
 
   constructor(data?: Partial<Report>) {
     super(data);
