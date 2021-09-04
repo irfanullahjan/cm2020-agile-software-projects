@@ -29,7 +29,9 @@ export default function UserByIdProperties() {
 
   return (
     <>
-      <h1>User properties</h1>
+      <h1>{`User properties${
+        properties?.length > 0 ? `: ${properties[0].user.username}` : ''
+      }`}</h1>
       {isValidating && <Spinner />}
       {properties && (
         <>
