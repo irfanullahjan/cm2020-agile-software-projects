@@ -71,13 +71,28 @@ export default function ViewProperty() {
               <tr>
                 <th scope="row">Posted on</th>
                 <td>
-                  {format(Date.parse(property.createStamp), 'yyyy-MM-dd hh:mm')}
+                  {format(
+                    Date.parse(property.createStamp),
+                    'yyyy-MM-dd EEEE h:mm a',
+                  )}
                 </td>
               </tr>
               <tr>
                 <th scope="row">Updated on</th>
                 <td>
-                  {format(Date.parse(property.updateStamp), 'yyyy-MM-dd hh:mm')}
+                  {format(
+                    Date.parse(property.updateStamp),
+                    'yyyy-MM-dd EEEE h:mm a',
+                  )}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Available from</th>
+                <td>
+                  {format(
+                    Date.parse(property.dateAvailable),
+                    'yyyy-MM-dd EEEE',
+                  )}
                 </td>
               </tr>
               <tr>
