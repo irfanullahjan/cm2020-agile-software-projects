@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { InputText } from 'components/lib/InputText';
 import { RadioGroup } from 'components/lib/RadioGroup';
 import { Select } from 'components/lib/Select';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { SessionContext } from '../../pages/_app';
 import { Spinner } from './lib/Spinner';
@@ -19,6 +19,7 @@ type Props = {
 export function PropertyForm(props: Props) {
   const router = useRouter();
   const { user } = useContext(SessionContext);
+  const [submitError, setSubmitError] = useState(false);
   const { propertyId } = props;
 
   const emptyForm = {
@@ -50,7 +51,7 @@ export function PropertyForm(props: Props) {
       .integer('Please round to nearest integer.'),
     dateAvailable: Yup.date().required('Required'),
   });
-  const formikBag = useFormik({
+  const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       ...emptyForm,
@@ -60,7 +61,7 @@ export function PropertyForm(props: Props) {
           ? new Date(propertyData.dateAvailable).toISOString().slice(0, 10)
           : '',
     },
-    onSubmit: values =>
+    onSubmit: values => {
       fetch(`/api/properties${propertyId ? `/${propertyId}` : ''}`, {
         method: propertyId ? 'PUT' : 'POST',
         headers: {
@@ -72,7 +73,21 @@ export function PropertyForm(props: Props) {
           dateAvailable: new Date(values.dateAvailable),
           userId: user.id,
         }),
-      }).then(() => router.push('/')),
+      })
+        .then(res => {
+          formik.setSubmitting(false);
+          if (res.status === 200 || res.status === 204) {
+            router.push('/');
+          } else {
+            setSubmitError(true);
+            console.error(res);
+          }
+        })
+        .catch(err => {
+          setSubmitError(true);
+          console.error(err);
+        });
+    },
     validationSchema,
   });
 
@@ -89,8 +104,8 @@ export function PropertyForm(props: Props) {
 
   return (
     <div>
-      {isValidating && <Spinner />}
-      <FormikProvider value={formikBag}>
+      {(isValidating || formik.isSubmitting) && <Spinner />}
+      <FormikProvider value={formik}>
         <Form>
           <InputText label="Title" name="title" />
           <InputText label="Description" name="description" type="textarea" />
@@ -112,14 +127,14 @@ export function PropertyForm(props: Props) {
           <br />
           <InputText
             label={
-              formikBag.values.offer === 'sale'
+              formik.values.offer === 'sale'
                 ? 'Price (USD)'
                 : 'Monthly rent (USD)'
             }
             name="price"
             type="number"
           />
-          {formikBag.values.offer === 'sale' ? (
+          {formik.values.offer === 'sale' ? (
             <FormGroup check>
               <Field
                 as={Input}
@@ -135,6 +150,11 @@ export function PropertyForm(props: Props) {
           <br />
           <Button type="submit">Submit</Button>
         </Form>
+        {submitError && (
+          <p className="text-danger mt-4">
+            Error submitting form. More info in browser console.
+          </p>
+        )}
       </FormikProvider>
     </div>
   );
