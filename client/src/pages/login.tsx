@@ -1,44 +1,53 @@
 import { InputText } from 'components/lib/InputText';
-import { Form, FormikProvider, useFormik } from 'formik';
+import { Form, FormikErrors, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/dist/client/router';
-import { useContext } from 'react';
-import { Button } from 'reactstrap';
+import { useContext, useState } from 'react';
+import { Button, Spinner } from 'reactstrap';
 import { SessionContext } from './_app';
 
 export default function Login() {
   const { user, updateSession } = useContext(SessionContext);
 
+  const [submitError, setSubmitError] = useState(false);
+
   const router = useRouter();
   if (user) router.push('/');
 
-  const formik = useFormik({
+  const formik = useFormik<{
+    email: string;
+    password: string;
+  }>({
     initialValues: {
       email: '',
       password: '',
     },
     onSubmit: async values => {
-      const res = await fetch('/api/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-      const authJson = await res.json();
-      if (authJson.token) {
-        localStorage.setItem('jwt', authJson.token);
-      } else {
-        alert('Login failed, please check your email and password.');
+      try {
+        const res = await fetch('/api/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
+        const authJson = await res.json();
+        if (authJson.token) {
+          localStorage.setItem('jwt', authJson.token);
+        } else {
+          setSubmitError(true);
+        }
+      } catch (err) {
+        setSubmitError(true);
       }
       updateSession();
     },
     validate: values => {
-      const errors: { [key: string]: string } = {};
+      const errors: FormikErrors<typeof values> = {};
       if (!values.email) {
-        errors['email'] = 'Email is required';
+        errors.email = 'Email is required';
       }
       if (!values.password) {
-        errors['password'] = 'Password is required';
+        errors.password = 'Password is required';
       }
       return errors;
     },
@@ -57,7 +66,14 @@ export default function Login() {
             label="Password"
             minLength={8}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            Submit {formik.isSubmitting && <Spinner size="sm" color="black" />}
+          </Button>
+          {submitError && (
+            <p className="text-danger mt-3">
+              Error logging in. Please check your email and password.
+            </p>
+          )}
         </Form>
       </FormikProvider>
     </>

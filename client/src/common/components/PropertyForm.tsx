@@ -8,6 +8,7 @@ import { useContext, useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { SessionContext } from '../../pages/_app';
 import { Spinner } from './lib/Spinner';
+import { Spinner as RsSpinner } from 'reactstrap';
 import useSWR from 'swr';
 import { fetcher } from 'utils/fetcher';
 import Error from 'next/error';
@@ -104,7 +105,7 @@ export function PropertyForm(props: Props) {
 
   return (
     <div>
-      {(isValidating || formik.isSubmitting) && <Spinner />}
+      {isValidating && <Spinner />}
       <FormikProvider value={formik}>
         <Form>
           <InputText label="Title" name="title" />
@@ -148,7 +149,10 @@ export function PropertyForm(props: Props) {
           <br />
           <InputText label="Date available" name="dateAvailable" type="date" />
           <br />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            Submit{' '}
+            {formik.isSubmitting && <RsSpinner size="sm" color="black" />}
+          </Button>
         </Form>
         {submitError && (
           <p className="text-danger mt-4">
