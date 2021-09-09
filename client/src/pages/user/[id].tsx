@@ -7,6 +7,8 @@ import { Spinner } from 'components/lib/Spinner';
 import { PropertiesGrid } from 'components/lib/PropertiesGrid';
 import Error from 'next/dist/pages/_error';
 
+const title = 'Selected user properties';
+
 export default function UserByIdProperties() {
   const { user } = useContext(SessionContext);
 
@@ -48,3 +50,5 @@ export default function UserByIdProperties() {
     </>
   );
 }
+
+UserByIdProperties.title = title;

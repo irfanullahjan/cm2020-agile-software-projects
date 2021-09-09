@@ -7,6 +7,8 @@ import useSwr from 'swr';
 import { fetcher } from 'utils/fetcher';
 import Error from 'next/error';
 
+const title = 'Reported properties';
+
 export default function ReportedProperties() {
   const { user } = useContext(SessionContext);
   const {
@@ -67,3 +69,5 @@ export default function ReportedProperties() {
     </>
   );
 }
+
+ReportedProperties.title = title;

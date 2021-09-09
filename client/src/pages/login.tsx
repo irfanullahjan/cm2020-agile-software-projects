@@ -5,6 +5,8 @@ import { useContext, useState } from 'react';
 import { Button, Spinner } from 'reactstrap';
 import { SessionContext } from './_app';
 
+const title = 'Login to EasyHomes';
+
 export default function Login() {
   const { user, updateSession } = useContext(SessionContext);
 
@@ -79,3 +81,5 @@ export default function Login() {
     </>
   );
 }
+
+Login.title = title;

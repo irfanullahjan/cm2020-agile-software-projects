@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+const title = 'Page not found';
+
 const NotFound = () => {
   return (
     <>
@@ -39,5 +41,7 @@ const NotFound = () => {
     </>
   );
 };
+
+NotFound.title = title;
 
 export default NotFound;

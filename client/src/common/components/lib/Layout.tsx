@@ -1,5 +1,14 @@
-import { Col, Container, Row } from 'reactstrap';
+import {
+  Col,
+  Container,
+  Nav,
+  Navbar,
+  NavbarText,
+  NavItem,
+  Row,
+} from 'reactstrap';
 import { NavbarTop } from './NavbarTop';
+import Link from 'next/link';
 
 type Props = {
   children: JSX.Element;
@@ -25,11 +34,20 @@ export function Layout(props: Props) {
           </Row>
         </Container>
       </div>
-      <div className="bg-dark text-secondary py-2" style={{ flexShrink: 0 }}>
+      <div className="bg-dark text-secondary" style={{ flexShrink: 0 }}>
         <Container>
           <Row>
             <Col>
-              <span>&copy; EasyHomes 2021</span>
+              <Navbar>
+                <Nav navbar>
+                  <NavItem>
+                    <Link href="/about">About</Link>
+                  </NavItem>
+                </Nav>
+                <NavbarText>
+                  &copy; EasyHomes {new Date().getFullYear()}
+                </NavbarText>
+              </Navbar>
             </Col>
           </Row>
         </Container>

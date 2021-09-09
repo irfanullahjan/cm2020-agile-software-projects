@@ -5,8 +5,10 @@ import { useContext } from 'react';
 import { Button } from 'reactstrap';
 import { SessionContext } from './_app';
 
-export default function Login() {
-  const { user, updateSession } = useContext(SessionContext);
+const title = 'Sign up for an EasyHomes account';
+
+export default function Signup() {
+  const { user } = useContext(SessionContext);
   const router = useRouter();
 
   const formik = useFormik<{
@@ -55,6 +57,9 @@ export default function Login() {
       return errors;
     },
   });
+
+  if (user) router.push('/');
+
   return (
     <>
       <h1>Signup</h1>
@@ -81,3 +86,5 @@ export default function Login() {
     </>
   );
 }
+
+Signup.title = title;

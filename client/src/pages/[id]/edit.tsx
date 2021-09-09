@@ -5,7 +5,8 @@ import { PropertyForm } from 'components/PropertyForm';
 import { useContext } from 'react';
 import { SessionContext } from '../../pages/_app';
 import Error from 'next/dist/pages/_error';
-import Head from 'next/head';
+
+const title = 'Edit property';
 
 export default function EditProperty() {
   const { user } = useContext(SessionContext);
@@ -18,11 +19,10 @@ export default function EditProperty() {
   if (!id) return <Spinner />;
   return (
     <>
-      <Head>
-        <title>Edit property</title>
-      </Head>
       <h1>Edit property</h1>
       <PropertyForm propertyId={+getAsString(id)} />
     </>
   );
 }
+
+EditProperty.title = title;
