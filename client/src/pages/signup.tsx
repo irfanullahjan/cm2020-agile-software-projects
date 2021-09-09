@@ -94,7 +94,7 @@ export default function Signup() {
           </Button>
           {submitError && (
             <p className="text-danger mt-3">
-              Error logging in. Please check your email and password.
+              Error signing up. Please retry with a different email or username.
             </p>
           )}
         </Form>

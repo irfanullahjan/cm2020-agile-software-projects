@@ -98,6 +98,19 @@ export class UserController {
     })
     newUserRequest: NewUserRequest,
   ): Promise<User> {
+    const exisitingUser = await this.userRepository.findOne({
+      where: {
+        or: [
+          {email: newUserRequest.email},
+          {username: newUserRequest.username},
+        ],
+      },
+    });
+
+    if (exisitingUser) {
+      throw new HttpErrors.Conflict("User with the same email or username already exists.");
+    }
+
     const password = await hash(newUserRequest.password, await genSalt());
     const savedUser = await this.userRepository.create(
       _.omit({...newUserRequest, realm: 'unverified'}, 'password'),
