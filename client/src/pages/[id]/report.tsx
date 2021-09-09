@@ -6,6 +6,8 @@ import { useContext } from 'react';
 import { Button } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
 
+const title = 'Report property';
+
 export default function ReportProperty() {
   const { user } = useContext(SessionContext);
   if (!user) return <p>Unauthorized!!</p>;
@@ -59,3 +61,5 @@ export default function ReportProperty() {
     </>
   );
 }
+
+ReportProperty.title = title;

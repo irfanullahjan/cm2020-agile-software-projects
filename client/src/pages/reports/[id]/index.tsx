@@ -5,6 +5,8 @@ import { getAsString } from 'utils/getAsString';
 import { Spinner } from 'components/lib/Spinner';
 import { Button } from 'reactstrap';
 
+const title = 'Reported property';
+
 export default function ReportedProperty() {
   const { user } = useContext(SessionContext);
 
@@ -45,3 +47,5 @@ export default function ReportedProperty() {
     </>
   );
 }
+
+ReportedProperty.title = title;

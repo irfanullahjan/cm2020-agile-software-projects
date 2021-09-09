@@ -10,6 +10,8 @@ import { fetcher } from 'utils/fetcher';
 import Error from 'next/error';
 import { format } from 'date-fns';
 
+const title = 'View property';
+
 export default function ViewProperty() {
   const { user } = useContext(SessionContext);
 
@@ -130,3 +132,5 @@ export default function ViewProperty() {
     </>
   );
 }
+
+ViewProperty.title = title;

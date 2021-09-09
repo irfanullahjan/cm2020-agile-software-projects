@@ -2,7 +2,8 @@ import { PropertyForm } from 'components/PropertyForm';
 import { SessionContext } from '../pages/_app';
 import { useContext } from 'react';
 import Error from 'next/dist/pages/_error';
-import Head from 'next/head';
+
+const title = 'Add a new property';
 
 export default function AddProperty() {
   const { user } = useContext(SessionContext);
@@ -14,11 +15,10 @@ export default function AddProperty() {
 
   return (
     <>
-      <Head>
-        <title>Add property</title>
-      </Head>
       <h1>Add property</h1>
       <PropertyForm />
     </>
   );
 }
+
+AddProperty.title = title;

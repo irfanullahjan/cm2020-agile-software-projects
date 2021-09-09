@@ -9,6 +9,8 @@ import { fetcher } from 'utils/fetcher';
 import useSWR from 'swr';
 import Error from 'next/error';
 
+const title = 'Properties';
+
 export default function Properties() {
   const defaultFilter = { include: ['user'], order: 'createStamp DESC' };
   const [searchFilter, setSearchFilter] = useState<object>(defaultFilter);
@@ -147,3 +149,5 @@ export default function Properties() {
     </>
   );
 }
+
+Properties.title = title;

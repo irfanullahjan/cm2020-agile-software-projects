@@ -6,6 +6,8 @@ import Error from 'next/dist/pages/_error';
 import useSWR, { mutate } from 'swr';
 import { fetcher } from 'utils/fetcher';
 
+const title = 'Verify user accounts';
+
 export default function VerifyUsers() {
   const { user } = useContext(SessionContext);
 
@@ -78,3 +80,5 @@ export default function VerifyUsers() {
     </>
   );
 }
+
+VerifyUsers.title = title;
