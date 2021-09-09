@@ -69,7 +69,7 @@ export default function Login() {
             minLength={8}
           />
           <Button type="submit">
-            Submit {formik.isSubmitting && <Spinner size="sm" color="black" />}
+            Login {formik.isSubmitting && <Spinner size="sm" color="black" />}
           </Button>
           {submitError && (
             <p className="text-danger mt-3">
