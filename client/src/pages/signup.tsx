@@ -1,8 +1,8 @@
 import { InputText } from 'components/lib/InputText';
 import { Form, FormikErrors, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/dist/client/router';
-import { useContext } from 'react';
-import { Button } from 'reactstrap';
+import { useContext, useState } from 'react';
+import { Button, Spinner } from 'reactstrap';
 import { SessionContext } from './_app';
 
 const title = 'Sign up for an EasyHomes account';
@@ -10,6 +10,7 @@ const title = 'Sign up for an EasyHomes account';
 export default function Signup() {
   const { user } = useContext(SessionContext);
   const router = useRouter();
+  const [submitError, setSubmitError] = useState(false);
 
   const formik = useFormik<{
     username?: string;
@@ -24,19 +25,27 @@ export default function Signup() {
       verifyPassword: '',
     },
     onSubmit: async values => {
-      const formData = {
-        ...values,
-      };
-      delete formData.verifyPassword;
-      const res = await fetch('/api/user/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const signupJson = await res.json();
-      if (signupJson.email) router.push('/login');
+      try {
+        const formData = {
+          ...values,
+        };
+        delete formData.verifyPassword;
+        const res = await fetch('/api/user/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        const signupJson = await res.json();
+        if (signupJson.email) {
+          router.push('/login');
+        } else {
+          setSubmitError(true);
+        }
+      } catch (err) {
+        setSubmitError(true);
+      }
     },
     validate: values => {
       let errors: FormikErrors<typeof values> = {};
@@ -80,7 +89,14 @@ export default function Signup() {
             label="Verify Password"
             minLength={8}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            Signup {formik.isSubmitting && <Spinner size="sm" color="black" />}
+          </Button>
+          {submitError && (
+            <p className="text-danger mt-3">
+              Error logging in. Please check your email and password.
+            </p>
+          )}
         </Form>
       </FormikProvider>
     </>
