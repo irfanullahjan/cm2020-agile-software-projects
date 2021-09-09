@@ -9,9 +9,9 @@ import { fetcher } from 'utils/fetcher';
 import useSWR from 'swr';
 import Error from 'next/error';
 
-const title = 'Properties';
+const title = 'EasyHomes home page';
 
-export default function Properties() {
+export default function EasyHomes() {
   const defaultFilter = { include: ['user'], order: 'createStamp DESC' };
   const [searchFilter, setSearchFilter] = useState<object>(defaultFilter);
 
@@ -150,4 +150,4 @@ export default function Properties() {
   );
 }
 
-Properties.title = title;
+EasyHomes.title = title;
