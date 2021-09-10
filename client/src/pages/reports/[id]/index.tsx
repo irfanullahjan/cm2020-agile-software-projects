@@ -39,6 +39,9 @@ export default function ReportedProperty() {
       />
     );
 
+  if (error)
+    return <Error statusCode={error.status} title={error.statusText} />;
+
   const handleDelete = async () => {
     if (confirm('Are you sure you want to delete this property?')) {
       const res = await fetch(`/api/properties/${id}`, {

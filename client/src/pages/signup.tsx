@@ -28,6 +28,7 @@ export default function Signup() {
       verifyPassword: '',
     },
     onSubmit: async values => {
+      setFormFeedback(undefined);
       try {
         const formData = {
           ...values,
@@ -41,11 +42,11 @@ export default function Signup() {
           body: JSON.stringify(formData),
         });
         if (res.status === 200) {
-          router.push('/login');
           setFormFeedback({
             accent: 'success',
             message: 'Signup successful. Redirecting you to login page.',
           });
+          router.push('/login');
         } else if (res.status === 409) {
           setFormFeedback({
             accent: 'danger',

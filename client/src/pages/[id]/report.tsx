@@ -45,12 +45,12 @@ export default function ReportProperty() {
         });
         const json = await res.json();
         if (json?.id) {
-          router.push('/');
           setFormFeedback({
             accent: 'success',
             message:
               'Reported the property successfully. Redirecting you to home page.',
           });
+          router.push('/');
         } else {
           throw res;
         }

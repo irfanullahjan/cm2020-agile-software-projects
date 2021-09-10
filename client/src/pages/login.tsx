@@ -26,6 +26,7 @@ export default function Login() {
       password: '',
     },
     onSubmit: async values => {
+      setFormFeedback(undefined);
       try {
         const res = await fetch('/api/user/login', {
           method: 'POST',

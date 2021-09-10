@@ -66,6 +66,7 @@ export function PropertyForm(props: Props) {
           : '',
     },
     onSubmit: values => {
+      setFormFeedback(undefined);
       fetch(`/api/properties${propertyId ? `/${propertyId}` : ''}`, {
         method: propertyId ? 'PUT' : 'POST',
         headers: {
@@ -81,12 +82,12 @@ export function PropertyForm(props: Props) {
         .then(res => {
           formik.setSubmitting(false);
           if (res.status === 200 || res.status === 204) {
-            router.push('/');
             setFormFeedback({
               accent: 'success',
               message:
                 'Property saved successfully. Redirecting you to home page.',
             });
+            router.push('/');
           } else {
             throw res;
           }
