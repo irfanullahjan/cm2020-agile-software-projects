@@ -151,7 +151,7 @@ export function PropertyForm(props: Props) {
           <br />
           <Button type="submit">
             Submit{' '}
-            {formik.isSubmitting && <RsSpinner size="sm" color="black" />}
+            {formik.isSubmitting && <RsSpinner size="sm" color="light" />}
           </Button>
         </Form>
         {submitError && (

@@ -2,17 +2,30 @@ import { InputText } from 'components/lib/InputText';
 import { Form, FormikErrors, FormikProvider, useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { SessionContext } from '../_app';
-import { useContext } from 'react';
-import { Button } from 'reactstrap';
+import { useContext, useState } from 'react';
+import { Button, Spinner } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
+import Error from 'next/error';
 
 const title = 'Report property';
 
 export default function ReportProperty() {
   const { user } = useContext(SessionContext);
-  if (!user) return <p>Unauthorized!!</p>;
   const router = useRouter();
   const id = +getAsString(router.query.id);
+
+  const [formFeedback, setFormFeedback] = useState<{
+    accent: string;
+    message: string;
+  }>();
+
+  if (!user)
+    return (
+      <Error
+        statusCode={401}
+        title="Sorry! You need to be logged in to access this page."
+      />
+    );
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -22,18 +35,31 @@ export default function ReportProperty() {
       userId: user.id,
     },
     onSubmit: async values => {
-      const res = await fetch('/api/reports', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-      const json = await res.json();
-      if (json?.id) {
-        router.push('/');
-      } else {
-        alert('Report creation failed.');
+      try {
+        const res = await fetch('/api/reports', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        });
+        const json = await res.json();
+        if (json?.id) {
+          router.push('/');
+          setFormFeedback({
+            accent: 'success',
+            message:
+              'Reported the property successfully. Redirecting you to home page.',
+          });
+        } else {
+          throw res;
+        }
+      } catch (err) {
+        setFormFeedback({
+          accent: 'danger',
+          message: 'Submission failed due to a network or server issue.',
+        });
+        console.error(err);
       }
     },
     validate: values => {
@@ -56,8 +82,13 @@ export default function ReportProperty() {
             label={`Please explain why do you think property ${id} should be removed?`}
           />
           <Button type="submit" color="primary">
-            Submit
+            Report {formik.isSubmitting && <Spinner size="sm" color="light" />}
           </Button>
+          {formFeedback && (
+            <p className={`text-${formFeedback.accent} mt-3`}>
+              {formFeedback.message}
+            </p>
+          )}
         </Form>
       </FormikProvider>
     </>

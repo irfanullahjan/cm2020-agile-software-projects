@@ -107,7 +107,7 @@ export default function Signup() {
             minLength={8}
           />
           <Button type="submit" color="primary">
-            Signup {formik.isSubmitting && <Spinner size="sm" color="black" />}
+            Signup {formik.isSubmitting && <Spinner size="sm" color="light" />}
           </Button>
           {formFeedback && (
             <p className={`text-${formFeedback.accent} mt-3`}>

@@ -45,7 +45,7 @@ export default function Login() {
           setFormFeedback({
             accent: 'danger',
             message:
-              'Login unsuccessful. Please retry with correct email and password.',
+              'Login failed. Please retry with correct email and password.',
           });
           console.error(res);
         } else {
@@ -54,7 +54,7 @@ export default function Login() {
       } catch (err) {
         setFormFeedback({
           accent: 'danger',
-          message: 'Signup failed due to a network or server issue.',
+          message: 'Login failed due to a network or server issue.',
         });
         console.error(err);
       }
@@ -86,7 +86,7 @@ export default function Login() {
             minLength={8}
           />
           <Button type="submit" color="primary">
-            Login {formik.isSubmitting && <Spinner size="sm" color="black" />}
+            Login {formik.isSubmitting && <Spinner size="sm" color="light" />}
           </Button>
           {formFeedback && (
             <p className={`text-${formFeedback.accent} mt-3`}>
