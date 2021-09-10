@@ -108,7 +108,9 @@ export class UserController {
     });
 
     if (exisitingUser) {
-      throw new HttpErrors.Conflict("User with the same email or username already exists.");
+      throw new HttpErrors.Conflict(
+        'User with the same email or username already exists.',
+      );
     }
 
     const password = await hash(newUserRequest.password, await genSalt());

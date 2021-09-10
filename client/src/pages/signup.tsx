@@ -10,7 +10,10 @@ const title = 'Sign up for an EasyHomes account';
 export default function Signup() {
   const { user } = useContext(SessionContext);
   const router = useRouter();
-  const [submitError, setSubmitError] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{
+    accent: string;
+    message: string;
+  }>();
 
   const formik = useFormik<{
     username?: string;
@@ -37,14 +40,28 @@ export default function Signup() {
           },
           body: JSON.stringify(formData),
         });
-        const signupJson = await res.json();
-        if (signupJson.email) {
+        if (res.status === 200) {
           router.push('/login');
+          setFormFeedback({
+            accent: 'success',
+            message: 'Signup successful. Redirecting you to login page.',
+          });
+        } else if (res.status === 409) {
+          setFormFeedback({
+            accent: 'danger',
+            message:
+              'Signup failed. Please retry with a different email or username.',
+          });
+          console.error(res);
         } else {
-          setSubmitError(true);
+          throw res;
         }
       } catch (err) {
-        setSubmitError(true);
+        setFormFeedback({
+          accent: 'danger',
+          message: 'Signup failed due to a network or server issue.',
+        });
+        console.error(err);
       }
     },
     validate: values => {
@@ -72,7 +89,7 @@ export default function Signup() {
   return (
     <>
       <h1>Signup</h1>
-      <p>Please enter details to sign up.</p>
+      <p>Please enter the following details to sign up.</p>
       <FormikProvider value={formik}>
         <Form>
           <InputText type="text" name="username" label="Username" />
@@ -89,12 +106,12 @@ export default function Signup() {
             label="Verify Password"
             minLength={8}
           />
-          <Button type="submit">
-            Signup {formik.isSubmitting && <Spinner size="sm" color="black" />}
+          <Button type="submit" color="primary">
+            Signup {formik.isSubmitting && <Spinner size="sm" color="light" />}
           </Button>
-          {submitError && (
-            <p className="text-danger mt-3">
-              Error signing up. Please retry with a different email or username.
+          {formFeedback && (
+            <p className={`text-${formFeedback.accent} mt-3`}>
+              {formFeedback.message}
             </p>
           )}
         </Form>

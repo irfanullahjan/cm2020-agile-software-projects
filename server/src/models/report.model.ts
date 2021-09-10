@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import { User } from '@loopback/authentication-jwt';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {AuditMixin} from './mixins/audit.mixin';
 
 @model()
@@ -21,10 +22,7 @@ export class Report extends AuditMixin(Entity) {
   })
   propertyId: number;
 
-  @property({
-    type: 'string',
-    required: true,
-  })
+  @belongsTo(() => User)
   userId: string;
 
   constructor(data?: Partial<Report>) {

@@ -20,7 +20,10 @@ type Props = {
 export function PropertyForm(props: Props) {
   const router = useRouter();
   const { user } = useContext(SessionContext);
-  const [submitError, setSubmitError] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{
+    accent: string;
+    message: string;
+  }>();
   const { propertyId } = props;
 
   const emptyForm = {
@@ -79,13 +82,20 @@ export function PropertyForm(props: Props) {
           formik.setSubmitting(false);
           if (res.status === 200 || res.status === 204) {
             router.push('/');
+            setFormFeedback({
+              accent: 'success',
+              message:
+                'Property saved successfully. Redirecting you to home page.',
+            });
           } else {
-            setSubmitError(true);
-            console.error(res);
+            throw res;
           }
         })
         .catch(err => {
-          setSubmitError(true);
+          setFormFeedback({
+            accent: 'danger',
+            message: 'Signup failed due to a network or server issue.',
+          });
           console.error(err);
         });
     },
@@ -149,14 +159,14 @@ export function PropertyForm(props: Props) {
           <br />
           <InputText label="Date available" name="dateAvailable" type="date" />
           <br />
-          <Button type="submit">
+          <Button type="submit" color="primary">
             Submit{' '}
-            {formik.isSubmitting && <RsSpinner size="sm" color="black" />}
+            {formik.isSubmitting && <RsSpinner size="sm" color="light" />}
           </Button>
         </Form>
-        {submitError && (
-          <p className="text-danger mt-4">
-            Error submitting form. More info in browser console.
+        {formFeedback && (
+          <p className={`text-${formFeedback.accent} mt-3`}>
+            {formFeedback.message}
           </p>
         )}
       </FormikProvider>

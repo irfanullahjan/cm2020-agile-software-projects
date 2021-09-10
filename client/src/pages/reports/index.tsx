@@ -53,11 +53,15 @@ export default function ReportedProperties() {
                 <td>
                   <Link href={`/reports/${property.id}`}>{property.title}</Link>
                 </td>
-                <td>{property.type}</td>
-                <td>{property.offer}</td>
+                <td className="text-capitalize">{property.type}</td>
+                <td className="text-capitalize">{property.offer}</td>
                 <td>{property.reports.length}</td>
                 <td>
-                  <Link href={`/reports/${property.id}`}>View</Link>
+                  <Link href={`/reports/${property.id}`} passHref>
+                    <a href="" className="btn btn-primary">
+                      View
+                    </a>
+                  </Link>
                 </td>
               </tr>
             ))}

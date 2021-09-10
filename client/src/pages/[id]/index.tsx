@@ -120,11 +120,11 @@ export default function ViewProperty() {
           {user &&
             (user.id === property?.userId ? (
               <Link href={`/${property.id}/edit`} passHref>
-                <a className="btn btn-secondary">Edit</a>
+                <a className="btn btn-primary">Edit</a>
               </Link>
             ) : (
               <Link href={`/${property?.id}/report`} passHref>
-                <a className="btn btn-secondary">Report</a>
+                <a className="btn btn-danger">Report</a>
               </Link>
             ))}
         </>
