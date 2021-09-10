@@ -55,7 +55,9 @@ export default function ReportProperty() {
             name="reason"
             label={`Please explain why do you think property ${id} should be removed?`}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" color="primary">
+            Submit
+          </Button>
         </Form>
       </FormikProvider>
     </>

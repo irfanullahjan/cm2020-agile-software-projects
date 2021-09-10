@@ -9,8 +9,10 @@ const title = 'Login to EasyHomes';
 
 export default function Login() {
   const { user, updateSession } = useContext(SessionContext);
-
-  const [submitError, setSubmitError] = useState(false);
+  const [formFeedback, setFormFeedback] = useState<{
+    accent: string;
+    message: string;
+  }>();
 
   const router = useRouter();
   if (user) router.push('/');
@@ -35,11 +37,26 @@ export default function Login() {
         const authJson = await res.json();
         if (authJson.token) {
           localStorage.setItem('jwt', authJson.token);
+          setFormFeedback({
+            accent: 'success',
+            message: 'Login successful. Redirecting you to home page.',
+          });
+        } else if (res.status === 401) {
+          setFormFeedback({
+            accent: 'danger',
+            message:
+              'Login unsuccessful. Please retry with correct email and password.',
+          });
+          console.error(res);
         } else {
-          setSubmitError(true);
+          throw res;
         }
       } catch (err) {
-        setSubmitError(true);
+        setFormFeedback({
+          accent: 'danger',
+          message: 'Signup failed due to a network or server issue.',
+        });
+        console.error(err);
       }
       updateSession();
     },
@@ -68,12 +85,12 @@ export default function Login() {
             label="Password"
             minLength={8}
           />
-          <Button type="submit">
+          <Button type="submit" color="primary">
             Login {formik.isSubmitting && <Spinner size="sm" color="black" />}
           </Button>
-          {submitError && (
-            <p className="text-danger mt-3">
-              Error logging in. Please check your email and password.
+          {formFeedback && (
+            <p className={`text-${formFeedback.accent} mt-3`}>
+              {formFeedback.message}
             </p>
           )}
         </Form>
