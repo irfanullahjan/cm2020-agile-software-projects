@@ -46,7 +46,7 @@ export default function Signup() {
             accent: 'success',
             message: 'Signup successful. Redirecting you to login page.',
           });
-          router.push('/login');
+          setTimeout(() => router.push('/'), 1000);
         } else if (res.status === 409) {
           setFormFeedback({
             accent: 'danger',

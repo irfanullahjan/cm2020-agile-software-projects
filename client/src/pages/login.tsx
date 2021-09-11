@@ -15,7 +15,6 @@ export default function Login() {
   }>();
 
   const router = useRouter();
-  if (user) router.push('/');
 
   const formik = useFormik<{
     email: string;
@@ -72,6 +71,8 @@ export default function Login() {
       return errors;
     },
   });
+
+  if (user) setTimeout(() => router.push('/'), 1000);
 
   return (
     <>

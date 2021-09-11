@@ -50,7 +50,7 @@ export default function ReportProperty() {
             message:
               'Reported the property successfully. Redirecting you to home page.',
           });
-          router.push('/');
+          setTimeout(() => router.push('/'), 1000);
         } else {
           throw res;
         }
