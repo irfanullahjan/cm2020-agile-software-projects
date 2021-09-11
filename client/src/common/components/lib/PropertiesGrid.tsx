@@ -18,20 +18,19 @@ import { useContext } from 'react';
 type Props = {
   properties: { [key: string]: any }[];
   editable?: boolean;
+  mutateUrl?: string | null;
 };
 
 export function PropertiesGrid(props: Props) {
   const { user } = useContext(SessionContext);
-  const { properties, editable } = props;
+  const { properties, editable, mutateUrl } = props;
 
   const handleDelete = (id: number) => {
     if (confirm('Are you sure you wnat to delete this property?')) {
       fetch(`/api/properties/${id}`, { method: 'DELETE' })
         .then(res => {
           if (res.status === 204) {
-            mutate(
-              `/api/properties?filter[where][userId]=${user.id}&filter[include][]=user`,
-            );
+            if (mutateUrl) mutate(mutateUrl);
           } else {
             alert('Deleting property failed.');
           }
