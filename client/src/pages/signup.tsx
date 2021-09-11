@@ -28,6 +28,7 @@ export default function Signup() {
       verifyPassword: '',
     },
     onSubmit: async values => {
+      setFormFeedback(undefined);
       try {
         const formData = {
           ...values,
@@ -41,11 +42,11 @@ export default function Signup() {
           body: JSON.stringify(formData),
         });
         if (res.status === 200) {
-          router.push('/login');
           setFormFeedback({
             accent: 'success',
             message: 'Signup successful. Redirecting you to login page.',
           });
+          setTimeout(() => router.push('/login'), 1000);
         } else if (res.status === 409) {
           setFormFeedback({
             accent: 'danger',
@@ -84,7 +85,15 @@ export default function Signup() {
     },
   });
 
-  if (user) router.push('/');
+  if (user) {
+    if (!formFeedback) {
+      setFormFeedback({
+        accent: 'info',
+        message: 'You are already logged in. Redirecting you to home page.',
+      });
+    }
+    setTimeout(() => router.push('/'), 1000);
+  }
 
   return (
     <>

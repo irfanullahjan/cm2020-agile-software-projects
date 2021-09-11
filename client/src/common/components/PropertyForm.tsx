@@ -65,39 +65,43 @@ export function PropertyForm(props: Props) {
           ? new Date(propertyData.dateAvailable).toISOString().slice(0, 10)
           : '',
     },
-    onSubmit: values => {
-      fetch(`/api/properties${propertyId ? `/${propertyId}` : ''}`, {
-        method: propertyId ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...values,
-          installments: values.offer === 'sale' ? values.installments : false,
-          dateAvailable: new Date(values.dateAvailable),
-          userId: user.id,
-        }),
-      })
-        .then(res => {
-          formik.setSubmitting(false);
-          if (res.status === 200 || res.status === 204) {
-            router.push('/');
-            setFormFeedback({
-              accent: 'success',
-              message:
-                'Property saved successfully. Redirecting you to home page.',
-            });
-          } else {
-            throw res;
-          }
-        })
-        .catch(err => {
+    onSubmit: async values => {
+      setFormFeedback(undefined);
+      try {
+        const res = await fetch(
+          `/api/properties${propertyId ? `/${propertyId}` : ''}`,
+          {
+            method: propertyId ? 'PUT' : 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ...values,
+              installments:
+                values.offer === 'sale' ? values.installments : false,
+              dateAvailable: new Date(values.dateAvailable),
+              userId: user.id,
+            }),
+          },
+        );
+
+        if (res.status === 200 || res.status === 204) {
           setFormFeedback({
-            accent: 'danger',
-            message: 'Signup failed due to a network or server issue.',
+            accent: 'success',
+            message:
+              'Property saved successfully. Redirecting you to your properties.',
           });
-          console.error(err);
+          setTimeout(() => router.push(`/user/${user.id}`), 1000);
+        } else {
+          throw res;
+        }
+      } catch (err) {
+        setFormFeedback({
+          accent: 'danger',
+          message: 'Signup failed due to a network or server issue.',
         });
+        console.error(err);
+      }
     },
     validationSchema,
   });

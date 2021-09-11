@@ -15,16 +15,11 @@ export default function UserByIdProperties() {
   const router = useRouter();
   const { id } = router.query;
 
-  const {
-    data: properties,
-    error,
-    isValidating,
-  } = useSWR(
-    id
-      ? `/api/properties?filter[where][userId]=${id}&filter[include][]=user`
-      : null,
-    fetcher,
-  );
+  const fetchUrl = id
+    ? `/api/properties?filter[where][userId]=${id}&filter[include][]=user&filter[order][]=createStamp DESC`
+    : null;
+
+  const { data: properties, error, isValidating } = useSWR(fetchUrl, fetcher);
 
   if (error)
     return <Error statusCode={error.status} title={error.statusText} />;
@@ -41,6 +36,7 @@ export default function UserByIdProperties() {
             <PropertiesGrid
               properties={properties}
               editable={id === user?.id}
+              mutateUrl={fetchUrl}
             />
           ) : (
             <p>This user has no properties.</p>

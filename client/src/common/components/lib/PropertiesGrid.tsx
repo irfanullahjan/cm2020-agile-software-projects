@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { SessionContext } from '../../../pages/_app';
 import {
   Badge,
+  Button,
   Card,
   CardBody,
   CardImg,
@@ -10,14 +12,33 @@ import {
   Col,
   Row,
 } from 'reactstrap';
+import { mutate } from 'swr';
+import { useContext } from 'react';
 
 type Props = {
   properties: { [key: string]: any }[];
   editable?: boolean;
+  mutateUrl?: string | null;
 };
 
 export function PropertiesGrid(props: Props) {
-  const { properties, editable } = props;
+  const { user } = useContext(SessionContext);
+  const { properties, editable, mutateUrl } = props;
+
+  const handleDelete = (id: number) => {
+    if (confirm('Are you sure you wnat to delete this property?')) {
+      fetch(`/api/properties/${id}`, { method: 'DELETE' })
+        .then(res => {
+          if (res.status === 204) {
+            if (mutateUrl) mutate(mutateUrl);
+          } else {
+            alert('Deleting property failed.');
+          }
+        })
+        .catch(() => alert('Error making network call.'));
+    }
+  };
+
   return (
     <Row className="my-4">
       {properties.map((property, i) => (
@@ -49,9 +70,16 @@ export function PropertiesGrid(props: Props) {
                 <a className="btn btn-primary mr-2">View</a>
               </Link>
               {editable && (
-                <Link href={`/${property.id}/edit`} passHref>
-                  <a className="btn btn-secondary">Edit</a>
-                </Link>
+                <>
+                  <Link href={`/${property.id}/edit`} passHref>
+                    <a className="btn btn-secondary mr-2">Edit</a>
+                  </Link>
+                  <Button
+                    color="danger"
+                    onClick={() => handleDelete(property.id)}>
+                    Delete
+                  </Button>
+                </>
               )}
             </CardBody>
           </Card>

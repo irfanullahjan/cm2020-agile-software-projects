@@ -15,7 +15,6 @@ export default function Login() {
   }>();
 
   const router = useRouter();
-  if (user) router.push('/');
 
   const formik = useFormik<{
     email: string;
@@ -26,6 +25,7 @@ export default function Login() {
       password: '',
     },
     onSubmit: async values => {
+      setFormFeedback(undefined);
       try {
         const res = await fetch('/api/user/login', {
           method: 'POST',
@@ -71,6 +71,16 @@ export default function Login() {
       return errors;
     },
   });
+
+  if (user) {
+    if (!formFeedback) {
+      setFormFeedback({
+        accent: 'info',
+        message: 'You are already logged in. Redirecting you to home page.',
+      });
+    }
+    setTimeout(() => router.push('/'), 1000);
+  }
 
   return (
     <>

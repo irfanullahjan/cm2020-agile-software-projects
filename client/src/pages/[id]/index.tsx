@@ -2,7 +2,7 @@ import { Spinner } from 'components/lib/Spinner';
 import { useRouter } from 'next/dist/client/router';
 import { SessionContext } from '../_app';
 import { useContext } from 'react';
-import { Badge, Table } from 'reactstrap';
+import { Badge, Button, Table } from 'reactstrap';
 import { getAsString } from 'utils/getAsString';
 import Link from 'next/link';
 import useSWR from 'swr';
@@ -29,6 +29,20 @@ export default function ViewProperty() {
 
   if (error)
     return <Error statusCode={error.status} title={error.statusText} />;
+
+  const handleDelete = () => {
+    if (confirm('Are you sure you wnat to delete this property?')) {
+      fetch(`/api/properties/${getAsString(id)}`, { method: 'DELETE' })
+        .then(res => {
+          if (res.status === 204) {
+            router.push(`/user/${user.id}`);
+          } else {
+            alert('Deleting property failed.');
+          }
+        })
+        .catch(() => alert('Error making network call.'));
+    }
+  };
 
   return (
     <>
@@ -119,9 +133,14 @@ export default function ViewProperty() {
           </Table>
           {user &&
             (user.id === property?.userId ? (
-              <Link href={`/${property.id}/edit`} passHref>
-                <a className="btn btn-primary">Edit</a>
-              </Link>
+              <>
+                <Link href={`/${property.id}/edit`} passHref>
+                  <a className="btn btn-primary mr-3">Edit</a>
+                </Link>
+                <Button color="danger" onClick={handleDelete}>
+                  Delete
+                </Button>
+              </>
             ) : (
               <Link href={`/${property?.id}/report`} passHref>
                 <a className="btn btn-danger">Report</a>
