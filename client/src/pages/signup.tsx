@@ -85,7 +85,15 @@ export default function Signup() {
     },
   });
 
-  if (user) router.push('/');
+  if (user) {
+    if (!formFeedback) {
+      setFormFeedback({
+        accent: 'info',
+        message: 'You are already logged in. Redirecting you to home page.',
+      });
+    }
+    setTimeout(() => router.push('/'), 1000);
+  }
 
   return (
     <>

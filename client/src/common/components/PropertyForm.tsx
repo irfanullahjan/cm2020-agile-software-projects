@@ -89,9 +89,9 @@ export function PropertyForm(props: Props) {
           setFormFeedback({
             accent: 'success',
             message:
-              'Property saved successfully. Redirecting you to home page.',
+              'Property saved successfully. Redirecting you to your properties.',
           });
-          setTimeout(() => router.push('/'), 1000);
+          setTimeout(() => router.push(`/user/${user.id}`), 1000);
         } else {
           throw res;
         }

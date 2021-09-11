@@ -72,7 +72,15 @@ export default function Login() {
     },
   });
 
-  if (user) setTimeout(() => router.push('/'), 1000);
+  if (user) {
+    if (!formFeedback) {
+      setFormFeedback({
+        accent: 'info',
+        message: 'You are already logged in. Redirecting you to home page.',
+      });
+    }
+    setTimeout(() => router.push('/'), 1000);
+  }
 
   return (
     <>
