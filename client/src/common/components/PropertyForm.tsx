@@ -98,7 +98,7 @@ export function PropertyForm(props: Props) {
       } catch (err) {
         setFormFeedback({
           accent: 'danger',
-          message: 'Signup failed due to a network or server issue.',
+          message: 'Submit failed due to a network or server issue.',
         });
         console.error(err);
       }
